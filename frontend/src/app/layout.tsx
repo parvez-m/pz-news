@@ -10,9 +10,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "pz·news — Your daily personalised briefing",
+  title: "pz·news. Your daily personalised briefing",
   description:
-    "Pick topics, YouTube channels, or playlists. Every day, pz·news delivers a clean, deduplicated AI summary — read it like a newspaper or listen to the audio brief.",
+    "Pick topics, YouTube channels, or playlists. Every day, pz·news delivers a clean, deduplicated AI summary. Read it like a newspaper or listen to the audio brief.",
 };
 
 export default function RootLayout({

@@ -28,46 +28,46 @@ interface VerifyEntry extends TopicEntry {
 
 const OCCUPATIONS: { id: Occupation; icon: string; label: string }[] = [
   { id: "student",   icon: "🎓", label: "Student" },
-  { id: "founder",   icon: "🚀", label: "Founder / Business owner" },
+  { id: "founder",   icon: "🚀", label: "Founder or Business owner" },
   { id: "employee",  icon: "💼", label: "Full-time employee" },
   { id: "intern",    icon: "🌱", label: "Intern" },
   { id: "jobseeker", icon: "🔍", label: "Looking for jobs" },
-  { id: "other",     icon: "💡", label: "Other" },
+  { id: "other",     icon: "✨", label: "Other" },
 ];
 
 const SUGGESTIONS: Record<SugTab, { label: string; type: TopicType }[]> = {
   topics: [
-    { label: "AI Agents",                type: "keyword" },
-    { label: "Space Commercialisation",  type: "keyword" },
-    { label: "Longevity Research",       type: "keyword" },
-    { label: "Climate Tech",             type: "keyword" },
-    { label: "Indian Economy",           type: "keyword" },
-    { label: "Quantum Computing",        type: "keyword" },
-    { label: "Neurotech",                type: "keyword" },
-    { label: "Open Source AI",           type: "keyword" },
-    { label: "Geopolitics",              type: "keyword" },
+    { label: "Generative AI",              type: "keyword" },
+    { label: "AI Agents",                  type: "keyword" },
+    { label: "AI Native Development",      type: "keyword" },
+    { label: "Vibe Coding",                type: "keyword" },
+    { label: "Developer Experience",       type: "keyword" },
+    { label: "Product Led Growth",         type: "keyword" },
+    { label: "Design Systems",             type: "keyword" },
+    { label: "Cloud Native Architecture",  type: "keyword" },
+    { label: "Multi Agent Systems",        type: "keyword" },
   ],
   channels: [
-    { label: "Lex Fridman",        type: "youtube_channel" },
-    { label: "Kurzgesagt",         type: "youtube_channel" },
-    { label: "Veritasium",         type: "youtube_channel" },
-    { label: "3Blue1Brown",        type: "youtube_channel" },
-    { label: "Y Combinator",       type: "youtube_channel" },
-    { label: "TED",                type: "youtube_channel" },
-    { label: "Fireship",           type: "youtube_channel" },
-    { label: "Two Minute Papers",  type: "youtube_channel" },
-    { label: "Real Engineering",   type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/Fireship",          type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/Freecodecamp",      type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/ThePrimeagen",      type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/TraversyMedia",     type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/ProductSchool",     type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/YCombinator",       type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/DesignCourse",      type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/TwoMinutePapers",   type: "youtube_channel" },
+    { label: "https://www.youtube.com/c/GoogleDevelopers",  type: "youtube_channel" },
   ],
   playlists: [
-    { label: "CS50 Harvard",           type: "youtube_playlist" },
-    { label: "MIT OpenCourseWare",     type: "youtube_playlist" },
-    { label: "Khan Academy Math",      type: "youtube_playlist" },
-    { label: "Stanford ML",            type: "youtube_playlist" },
-    { label: "TED-Ed Science",         type: "youtube_playlist" },
-    { label: "freeCodeCamp",           type: "youtube_playlist" },
-    { label: "Andrej Karpathy ML",     type: "youtube_playlist" },
-    { label: "Yale Open Courses",      type: "youtube_playlist" },
-    { label: "NPTEL Engineering",      type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLhQjrBD2T381NyO-bf9n5YJZ5v1dTn8qJ", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLkDaE6sCZn6FNC6YRfRQc_FbeQrF8BwGI", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLMCXHnjXnTnttRB6Ecnf3YqT4vB6G3KxR", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLQ-uHSnFig5NV4Jw1c6hK0QmXkYV6H1yC", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PL5q_lef6zVkaTyZEDVQf9W2VJkG7gH8fU", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLTZYG7bZ1u6qj0pYQF0EY50jYOEoTP0RF", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PL0vfts4VzfNiX_9y6H0IYp5hN0nqD1L4k", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLJbE2Yu2zumCFXz3oD5pX7YhG7FQ0y9JH", type: "youtube_playlist" },
+    { label: "https://www.youtube.com/playlist?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E", type: "youtube_playlist" },
   ],
 };
 
@@ -234,7 +234,7 @@ export default function OnboardingPage() {
   const stepLabel =
     step === "occupation" ? "Step 1 of 3" :
     step === "select"     ? "Step 2 of 3" :
-    step === "verify"     ? "Step 2 of 3 — Verifying…" :
+    step === "verify"     ? "Step 2 of 3: Verifying..." :
     "Step 3 of 3";
 
   function backFrom(s: Step) {
@@ -323,7 +323,7 @@ export default function OnboardingPage() {
 
             {/* Keywords */}
             <div className="ob-input-section">
-              <div className="ob-input-label">📰 Topics <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--ink4)", fontSize: 11 }}>— enter a keyword</span></div>
+              <div className="ob-input-label">📰 Topics <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--ink4)", fontSize: 11 }}>enter a keyword</span></div>
               <div className="ob-input-row">
                 <input className="ob-input" placeholder="e.g. Quantum Computing, AI Agents…"
                   value={keywordInput} onChange={(e) => setKeywordInput(e.target.value)}
@@ -348,7 +348,7 @@ export default function OnboardingPage() {
             {/* Channels (registered only) */}
             {!guest && (
               <div className="ob-input-section">
-                <div className="ob-input-label">▶ YouTube Channels <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--ink4)", fontSize: 11 }}>— paste channel URL</span></div>
+                <div className="ob-input-label">▶ YouTube Channels <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--ink4)", fontSize: 11 }}>paste channel URL</span></div>
                 <div className="ob-input-row">
                   <input className="ob-input" placeholder="e.g. https://youtube.com/@lexfridman"
                     value={channelInput} onChange={(e) => setChannelInput(e.target.value)}
@@ -373,7 +373,7 @@ export default function OnboardingPage() {
             {/* Playlists (registered only) */}
             {!guest && (
               <div className="ob-input-section">
-                <div className="ob-input-label">📋 Playlists <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--ink4)", fontSize: 11 }}>— paste playlist URL</span></div>
+                <div className="ob-input-label">📋 Playlists <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "var(--ink4)", fontSize: 11 }}>paste playlist URL</span></div>
                 <div className="ob-input-row">
                   <input className="ob-input" placeholder="e.g. https://youtube.com/playlist?list=…"
                     value={playlistInput} onChange={(e) => setPlaylistInput(e.target.value)}

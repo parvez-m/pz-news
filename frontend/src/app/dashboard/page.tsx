@@ -640,7 +640,7 @@ export default function DashboardPage() {
                 <div style={{ borderTop: "1px solid var(--rule)" }}>
                   {news.length === 0 ? (
                     <div style={{ padding: "16px", textAlign: "center", fontSize: 13, color: "var(--ink4)" }}>
-                      No articles yet — hit Refresh to fetch content.
+                      No articles yet. Hit Refresh to fetch content.
                     </div>
                   ) : (
                     [...grouped.entries()]
@@ -810,7 +810,7 @@ export default function DashboardPage() {
       <div className="quiz-select-panel">
         <div className="quiz-sel-title">Quiz yourself</div>
         <div className="quiz-sel-sub">
-          Choose an interest — questions are drawn from all saved news for that topic.
+          Choose an interest. Questions are drawn from all saved news for that topic.
         </div>
         {loadingData ? (
           [1, 2].map((i) => <CardSkeleton key={i} />)
@@ -878,7 +878,7 @@ export default function DashboardPage() {
         <div className="db-header">
           <div className="db-top">
             <div className="logo-word" style={{ fontSize: 17 }}>
-              pz<span className="lo-dot">•</span>news
+              <span className="lo-pz">pz</span><span className="lo-dot">•</span><span className="lo-news">news</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               {guest && <div className="db-guest-badge">Guest</div>}

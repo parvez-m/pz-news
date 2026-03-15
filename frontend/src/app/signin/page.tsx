@@ -94,7 +94,7 @@ export default function SignInPage() {
 
   function handleGoogleClick() {
     if (!googleReady || !window.google) {
-      setError("Google Sign-In is loading — please try again in a moment.");
+      setError("Google Sign-In is loading. Please try again in a moment.");
       return;
     }
     setLoading("google");
@@ -127,7 +127,7 @@ export default function SignInPage() {
             ←
           </Link>
           <div className="logo-word" style={{ fontSize: 17 }}>
-            pz<span className="lo-dot">•</span>news
+            <span className="lo-pz">pz</span><span className="lo-dot">•</span><span className="lo-news">news</span>
           </div>
         </div>
 
