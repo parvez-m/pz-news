@@ -107,7 +107,7 @@ export default function LandingPage() {
           Your daily personalised briefing
         </div>
         <h1 className="l-hero-h1">
-          Stay ahead on what <em>matters</em> to you.
+          Stay ahead on what <span className="accent">matters</span> to you.
         </h1>
         <p className="l-hero-sub">
           Pick any <strong>topic</strong>, <strong>YouTube channel</strong>, or <strong>playlist</strong>.
@@ -225,6 +225,87 @@ export default function LandingPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* DIGEST PREVIEW */}
+      <section className="l-preview" style={{ padding: "52px 20px", background: "var(--paper)", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+        <div className="section-eyebrow" style={{ textAlign: "center" }}>What it looks like</div>
+        <h2 className="section-title" style={{ textAlign: "center", marginBottom: 8 }}>Your digest, every morning.</h2>
+        <p className="section-sub" style={{ textAlign: "center", margin: "0 auto 36px", maxWidth: 400 }}>
+          Clean, structured, and sourced from across the web.
+        </p>
+        <div style={{
+          maxWidth: 360, margin: "0 auto",
+          background: "var(--white)", border: "1px solid var(--rule)",
+          borderRadius: 14, overflow: "hidden",
+          boxShadow: "0 12px 40px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.05)",
+        }}>
+          {/* Phone top bar */}
+          <div style={{
+            background: "var(--white)", padding: "12px 16px",
+            borderBottom: "1px solid var(--rule)",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+          }}>
+            <div className="logo-word" style={{ fontSize: 15 }}>
+              <span className="lo-pz">pz</span><span className="lo-dot">•</span><span className="lo-news">news</span>
+            </div>
+            <div style={{
+              width: 28, height: 28, borderRadius: "50%",
+              background: "var(--a)", color: "#fff",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 11, fontWeight: 700,
+            }}>P</div>
+          </div>
+          {/* Tab row */}
+          <div style={{ display: "flex", borderBottom: "1px solid var(--rule)", padding: "0 16px" }}>
+            {["Digest", "Interests", "Glossary"].map((t, i) => (
+              <div key={t} style={{
+                padding: "8px 12px",
+                fontSize: 10, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" as const,
+                color: i === 0 ? "var(--a)" : "var(--ink4)",
+                borderBottom: i === 0 ? "2px solid var(--a)" : "2px solid transparent",
+                fontFamily: "'Satoshi', sans-serif",
+              }}>{t}</div>
+            ))}
+          </div>
+          {/* Greeting */}
+          <div style={{ padding: "12px 16px 4px", fontSize: 14, fontWeight: 700, color: "var(--ink)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Good morning 👋</div>
+          <div style={{ padding: "0 16px 10px", fontSize: 11, color: "var(--ink3)" }}>Your briefing for today</div>
+          {/* Card 1 — AI Agents */}
+          <div style={{ margin: "0 16px 10px", background: "var(--white)", border: "1px solid var(--rule)", borderRadius: 10, overflow: "hidden" }}>
+            <div style={{ height: 2, background: "#4f46e5" }} />
+            <div style={{ padding: 12 }}>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" as const, padding: "2px 7px", borderRadius: 3, display: "inline-block", marginBottom: 7, background: "#eeecff", color: "#4f46e5" }}>AI AGENTS</div>
+              <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 13, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35, marginBottom: 6 }}>OpenAI launches Operator — autonomous agents that can book, buy and manage tasks</div>
+              <div style={{ fontSize: 11, color: "var(--ink3)", lineHeight: 1.6, marginBottom: 8 }}>A significant shift from AI assistants to agents capable of taking real actions on the web on your behalf.</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 7, borderTop: "1px solid var(--rule)" }}>
+                <div style={{ fontSize: 10, color: "var(--ink4)" }}>📰 5 sources</div>
+                <div style={{ display: "flex", gap: 5 }}>
+                  {["🎧 Listen", "🧠 Quiz"].map((a) => (
+                    <div key={a} style={{ background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 5, padding: "4px 9px", fontSize: 10, fontWeight: 600, color: "var(--ink3)", fontFamily: "'Satoshi', sans-serif" }}>{a}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Card 2 — Fireship */}
+          <div style={{ margin: "0 16px 16px", background: "var(--white)", border: "1px solid var(--rule)", borderRadius: 10, overflow: "hidden" }}>
+            <div style={{ height: 2, background: "#1a5e3c" }} />
+            <div style={{ padding: 12 }}>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" as const, padding: "2px 7px", borderRadius: 3, display: "inline-block", marginBottom: 7, background: "#e8f5ee", color: "#1a5e3c" }}>▶ FIRESHIP</div>
+              <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 13, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35, marginBottom: 6 }}>React 19 is here — what actually changed and what you need to update</div>
+              <div style={{ fontSize: 11, color: "var(--ink3)", lineHeight: 1.6, marginBottom: 8 }}>Server components stable, new compiler in beta, and several hooks deprecated.</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 7, borderTop: "1px solid var(--rule)" }}>
+                <div style={{ fontSize: 10, color: "var(--ink4)" }}>📰 YouTube + 3 articles</div>
+                <div style={{ display: "flex", gap: 5 }}>
+                  {["🎧 Listen", "🧠 Quiz"].map((a) => (
+                    <div key={a} style={{ background: "var(--surface)", border: "1px solid var(--rule)", borderRadius: 5, padding: "4px 9px", fontSize: 10, fontWeight: 600, color: "var(--ink3)", fontFamily: "'Satoshi', sans-serif" }}>{a}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -528,7 +528,7 @@ export default function DashboardPage() {
 
     const greetingBlock = (
       <div style={{ marginBottom: 16 }}>
-        <div style={{ fontFamily: "var(--font-serif), serif", fontSize: 19, fontWeight: 400, letterSpacing: "-0.3px", marginBottom: 3 }}>
+        <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 19, fontWeight: 400, letterSpacing: "-0.3px", marginBottom: 3 }}>
           {greeting()} 👋
         </div>
         <div style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 10 }}>
@@ -755,7 +755,7 @@ export default function DashboardPage() {
   function renderGlossary() {
     return (
       <div className="glossary-panel">
-        <div style={{ fontFamily: "var(--font-serif), serif", fontSize: 20, fontWeight: 400, marginBottom: 4 }}>Glossary</div>
+        <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 20, fontWeight: 400, marginBottom: 4 }}>Glossary</div>
         <div style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 12 }}>Terms extracted from your briefings.</div>
 
         {glossaryTopics.length > 0 && (

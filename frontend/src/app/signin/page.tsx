@@ -1,37 +1,8 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signInWithGoogle } from "@/lib/api";
-
-// ── Google Identity Services types ───────────────────────────────────────────
-
-type CredentialResponse = { credential: string };
-
-type PromptNotification = {
-  isNotDisplayed: () => boolean;
-  isSkippedMoment: () => boolean;
-};
-
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (cfg: {
-            client_id: string;
-            callback: (r: CredentialResponse) => void;
-            auto_select: boolean;
-          }) => void;
-          prompt: (cb?: (n: PromptNotification) => void) => void;
-        };
-      };
-    };
-  }
-}
-
-// ── Google logo SVG ───────────────────────────────────────────────────────────
 
 function GoogleIcon() {
   return (
@@ -44,69 +15,70 @@ function GoogleIcon() {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
-
 export default function SignInPage() {
   const router = useRouter();
   const [loading, setLoading] = useState<"google" | "guest" | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [googleReady, setGoogleReady] = useState(false);
   const [guestModalOpen, setGuestModalOpen] = useState(false);
+  const msgHandlerRef = useRef<((e: MessageEvent) => void) | null>(null);
 
-  // Called by GIS after user picks a Google account
-  const handleCredential = useCallback(
-    async (response: CredentialResponse) => {
-      setLoading("google");
-      setError(null);
-      try {
-        const { token } = await signInWithGoogle(response.credential);
-        localStorage.setItem("pz_token", token);
-        router.push("/onboarding");
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Sign-in failed. Please try again."
-        );
-        setLoading(null);
-      }
-    },
-    [router]
-  );
-
-  // Load Google Identity Services script once
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      window.google?.accounts.id.initialize({
-        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "",
-        callback: handleCredential,
-        auto_select: false,
-      });
-      setGoogleReady(true);
-    };
-    document.head.appendChild(script);
     return () => {
-      if (document.head.contains(script)) document.head.removeChild(script);
+      if (msgHandlerRef.current) {
+        window.removeEventListener("message", msgHandlerRef.current);
+      }
     };
-  }, [handleCredential]);
+  }, []);
 
   function handleGoogleClick() {
-    if (!googleReady || !window.google) {
-      setError("Google Sign-In is loading. Please try again in a moment.");
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? "";
+    const redirectUri = `${window.location.origin}/auth/callback`;
+    const params = new URLSearchParams({
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      response_type: "code",
+      scope: "openid email profile",
+      prompt: "select_account",
+    });
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+
+    const popup = window.open(url, "google-signin", "width=500,height=600,popup=1");
+    if (!popup) {
+      setError("Pop-up was blocked. Please allow pop-ups for this site and try again.");
       return;
     }
+
     setLoading("google");
     setError(null);
-    window.google.accounts.id.prompt((notification) => {
-      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+
+    const handler = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin) return;
+      if (e.data?.type === "pz_auth") {
+        window.removeEventListener("message", handler);
+        msgHandlerRef.current = null;
+        localStorage.setItem("pz_token", e.data.token);
+        router.push("/onboarding");
+      } else if (e.data?.type === "pz_auth_error") {
+        window.removeEventListener("message", handler);
+        msgHandlerRef.current = null;
+        setError(e.data.error ?? "Sign-in failed. Please try again.");
         setLoading(null);
-        setError(
-          "Google Sign-In could not open. Please allow pop-ups or try a different browser."
-        );
       }
-    });
+    };
+
+    msgHandlerRef.current = handler;
+    window.addEventListener("message", handler);
+
+    const poll = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(poll);
+        if (msgHandlerRef.current) {
+          window.removeEventListener("message", msgHandlerRef.current);
+          msgHandlerRef.current = null;
+        }
+        setLoading((prev) => (prev === "google" ? null : prev));
+      }
+    }, 500);
   }
 
   function continueAsGuest() {
@@ -121,20 +93,15 @@ export default function SignInPage() {
   return (
     <>
       <div className="si-wrap">
-        {/* ── Head ── */}
-        <div className="si-head">
-          <Link href="/" aria-label="Back to home" style={{ fontSize: 18, color: "var(--ink3)", lineHeight: 1 }}>
-            ←
-          </Link>
+        <div className="si-bar">
+          <Link href="/" className="si-back" aria-label="Back to home">←</Link>
           <div className="logo-word" style={{ fontSize: 17 }}>
             <span className="lo-pz">pz</span><span className="lo-dot">•</span><span className="lo-news">news</span>
           </div>
         </div>
 
-        {/* ── Body ── */}
         <div className="si-body">
           <div className="si-card fade-up">
-
             <div style={{ fontSize: 40, marginBottom: 16 }}>
               <svg width="40" height="40" viewBox="0 0 28 28" fill="none">
                 <circle cx="14" cy="10" r="5" stroke="var(--a)" strokeWidth="1.5"/>
@@ -149,12 +116,7 @@ export default function SignInPage() {
 
             {error && <div className="si-error">{error}</div>}
 
-            {/* Google button */}
-            <button
-              className="btn-google"
-              onClick={handleGoogleClick}
-              disabled={busy}
-            >
+            <button className="btn-google" onClick={handleGoogleClick} disabled={busy}>
               {loading === "google" ? (
                 <>
                   <span className="spinner" style={{ borderTopColor: "var(--ink3)", borderColor: "var(--rule2)" }} />
@@ -170,24 +132,17 @@ export default function SignInPage() {
 
             <div className="si-divider">or</div>
 
-            {/* Guest button — opens modal */}
-            <button
-              className="btn-guest"
-              onClick={() => setGuestModalOpen(true)}
-              disabled={busy}
-            >
+            <button className="btn-guest" onClick={() => setGuestModalOpen(true)} disabled={busy}>
               👤 Continue as Guest
             </button>
 
             <p className="si-terms">
               By continuing you agree to our Terms of Service and Privacy Policy.
             </p>
-
           </div>
         </div>
       </div>
 
-      {/* ── Guest modal bottom-sheet ── */}
       <div
         className={`modal-overlay${guestModalOpen ? " open" : ""}`}
         onClick={(e) => { if (e.target === e.currentTarget) setGuestModalOpen(false); }}

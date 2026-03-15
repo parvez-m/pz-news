@@ -52,6 +52,15 @@ export async function signInWithGoogle(
   });
 }
 
+export async function exchangeAuthCode(
+  code: string
+): Promise<{ token: string; expires_in?: number }> {
+  return apiFetch("/api/v1/auth/google", {
+    method: "POST",
+    body: JSON.stringify({ code }),
+  });
+}
+
 export async function signOut(): Promise<void> {
   await apiFetch("/api/v1/auth/logout", { method: "POST" }).catch(() => {});
   clearSession();

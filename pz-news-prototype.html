@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>pz·news — Stay ahead on what matters to you</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-<!-- Satoshi Variable from Fontshare CDN -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -61,6 +60,7 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 body{font-family:'Satoshi',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif}
 button,input,select{font-family:'Satoshi',sans-serif;cursor:pointer}
 button{border:none;background:none}
 input,select{border:none;outline:none}
@@ -89,15 +89,9 @@ input,select{border:none;outline:none}
 /* ═══════════════════════════════════════════
    LOGO
 ═══════════════════════════════════════════ */
-.logo{display:inline-flex;align-items:center;text-decoration:none}
-.logo-word{
-  font-family:'Satoshi',sans-serif;
-  font-weight:900;
-  font-size:19px;
-  letter-spacing:-.02em;
-  color:var(--ink);
-  line-height:1;
-}
+.logo{display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.logo-icon{flex-shrink:0;width:22px;height:22px}
+.logo-word{font-family:'Satoshi',sans-serif;font-weight:900;font-size:19px;letter-spacing:-.02em;color:var(--ink);line-height:1}
 .logo-word .lo-dot{color:var(--a)}
 
 /* ═══════════════════════════════════════════
@@ -169,8 +163,8 @@ input,select{border:none;outline:none}
 .hero-content{position:relative;z-index:1;max-width:680px;display:flex;flex-direction:column;align-items:center}
 .hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:22px}
 .hero-tag-line{width:20px;height:1.5px;background:var(--a)}
-.hero-h1{font-family:'Instrument Serif',serif;font-size:clamp(40px,7vw,70px);line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin-bottom:20px}
-.hero-h1 em{font-style:italic;color:var(--a)}
+.hero-h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(36px,6.5vw,64px);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--ink);margin-bottom:20px}
+.hero-h1 .accent{color:var(--a)}
 .hero-sub{font-size:clamp(15px,2vw,17px);line-height:1.8;color:var(--ink3);max-width:520px;margin-bottom:36px}
 .hero-sub strong{color:var(--ink);font-weight:500}
 .hero-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:260px;margin-bottom:24px}
@@ -201,7 +195,7 @@ input,select{border:none;outline:none}
 .s-dark{background:var(--ink)}
 .s-eye{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .s-eye::before{content:'';width:18px;height:1.5px;background:var(--a);flex-shrink:0}
-.s-title{font-family:'Instrument Serif',serif;font-size:clamp(26px,4vw,38px);line-height:1.18;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.s-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(24px,3.8vw,36px);font-weight:800;line-height:1.18;letter-spacing:-.025em;color:var(--ink);margin-bottom:12px}
 .s-sub{font-size:15px;line-height:1.8;color:var(--ink3);max-width:480px}
 
 /* Sources grid */
@@ -211,7 +205,7 @@ input,select{border:none;outline:none}
 @media(max-width:639px){.src-cell{border-right:none;border-bottom:1px solid var(--rule)}}
 .src-cell:last-child{border-right:none;border-bottom:none}
 .src-cell:hover{background:var(--paper)}
-.src-n{font-family:'Instrument Serif',serif;font-size:40px;font-style:italic;color:var(--rule2);line-height:1;margin-bottom:14px}
+.src-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:800;color:var(--rule2);line-height:1;margin-bottom:14px;letter-spacing:-.04em}
 .src-t{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
 .src-d{font-size:13px;color:var(--ink3);line-height:1.7;margin-bottom:14px}
 .src-chips{display:flex;flex-wrap:wrap;gap:5px}
@@ -237,35 +231,35 @@ input,select{border:none;outline:none}
 .ex-arr{font-size:10px;font-weight:700;color:var(--a);opacity:0;transform:translateX(-5px);transition:all .18s;display:block;margin-top:5px}
 
 /* Testimonial */
-.proof-q{font-family:'Instrument Serif',serif;font-size:clamp(17px,3.2vw,23px);font-style:italic;line-height:1.6;color:#e8edf2;margin-bottom:18px;max-width:540px}
-.proof-q strong{font-style:normal;color:var(--white)}
+.proof-q{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(17px,3.2vw,22px);font-weight:600;line-height:1.6;color:#e8edf2;margin-bottom:18px;max-width:540px}
+.proof-q strong{color:var(--white);font-weight:800}
 .proof-by{font-size:13px;color:#4a5568;margin-bottom:32px}
 .proof-by strong{color:#8896a5;font-weight:500}
 .proof-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #1e2530;max-width:340px}
 .proof-stat{padding:16px 12px;text-align:center;border-right:1px solid #1e2530}
 .proof-stat:last-child{border-right:none}
-.proof-num{font-family:'Instrument Serif',serif;font-size:26px;color:var(--white);line-height:1;margin-bottom:3px}
+.proof-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--white);line-height:1;margin-bottom:3px}
 .proof-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#303a48}
 
 /* Final CTA */
 .fcta{padding:80px clamp(20px,5vw,56px);background:var(--a-pale);border-top:1px solid var(--a-rule);text-align:center}
-.fcta-title{font-family:'Instrument Serif',serif;font-size:clamp(30px,5vw,48px);font-style:italic;line-height:1.1;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.fcta-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.025em;color:var(--ink);margin-bottom:12px}
 .fcta-sub{font-size:15px;color:var(--ink3);line-height:1.8;margin-bottom:30px;max-width:340px;margin-left:auto;margin-right:auto}
 .fcta-trust{font-size:12px;color:var(--ink4);margin-top:14px;display:flex;flex-wrap:wrap;gap:5px 12px;justify-content:center;align-items:center}
 .fcta-ti{display:flex;align-items:center;gap:4px}
 .tck{color:var(--a);font-weight:700}
-.site-footer{padding:20px clamp(20px,5vw,56px);border-top:1px solid var(--rule);font-size:12px;color:var(--ink4);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;background:var(--white)}
+.site-footer{padding:32px clamp(20px,5vw,56px);border-top:1px solid var(--rule);background:var(--white);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px}
 
 /* ═══════════════════════════════════════════
    SIGN IN
 ═══════════════════════════════════════════ */
 #signin{background:var(--paper)}
 .si-wrap{min-height:100vh;display:flex;flex-direction:column}
-.si-bar{padding:16px clamp(20px,5vw,56px);border-bottom:1px solid var(--rule);background:var(--white);display:flex;align-items:center;gap:12px}
+.si-bar{padding:16px clamp(20px,5vw,56px);border-bottom:1px solid var(--rule);background:var(--white);display:flex;align-items:center;justify-content:center;gap:12px}
 .si-body{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
 .si-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:40px 32px;width:100%;max-width:360px;text-align:center;box-shadow:var(--sh2);animation:scaleIn .35s var(--ease)}
 .si-avatar{width:54px;height:54px;margin:0 auto 18px;border-radius:50%;background:var(--a-pale);border:1.5px solid var(--a-rule);display:flex;align-items:center;justify-content:center}
-.si-title{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:7px;color:var(--ink)}
+.si-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.025em;margin-bottom:7px;color:var(--ink)}
 .si-sub{font-size:13.5px;color:var(--ink3);line-height:1.7;margin-bottom:24px}
 .si-or{display:flex;align-items:center;gap:10px;margin:11px 0;color:var(--ink4);font-size:12px}
 .si-or::before,.si-or::after{content:'';flex:1;height:1px;background:var(--rule)}
@@ -420,8 +414,8 @@ input,select{border:none;outline:none}
 .nc-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .nc-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:4px}
 .nc-time{font-size:11px;color:var(--ink4)}
-.nc-title{font-family:'Instrument Serif',serif;font-size:16px;line-height:1.32;letter-spacing:-.01em;color:var(--ink);margin-bottom:8px}
-.nc-intro{font-size:13px;line-height:1.7;color:var(--ink2);margin-bottom:8px}
+.nc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;line-height:1.35;letter-spacing:-.015em;color:var(--ink);margin-bottom:8px}
+.nc-intro{font-size:13px;line-height:1.7;color:var(--ink2);margin-bottom:8px;font-style:italic}
 .nc-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:9px}
 .nc-bullets li{font-size:12.5px;line-height:1.55;color:var(--ink3);display:flex;gap:7px}
 .nc-bullets li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--rule2);flex-shrink:0;margin-top:6px}
@@ -454,7 +448,7 @@ input,select{border:none;outline:none}
 .grp-row{padding:11px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--rule)}
 .grp-row:last-child{border-bottom:none}
 .grp-row:hover{background:var(--surface)}
-.grp-row-title{font-family:'Instrument Serif',serif;font-size:14px;line-height:1.35;color:var(--ink);margin-bottom:3px}
+.grp-row-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;line-height:1.35;color:var(--ink);margin-bottom:3px}
 .grp-row-intro{font-size:12px;color:var(--ink3);line-height:1.55;margin-bottom:6px}
 .grp-row-foot{display:flex;align-items:center;justify-content:space-between}
 .grp-row-meta{font-size:11px;color:var(--ink4)}
@@ -523,10 +517,10 @@ input,select{border:none;outline:none}
 .det-back:hover{background:var(--sur2)}
 .det-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px}
 .det-body{padding:20px clamp(14px,4vw,28px) 100px;max-width:660px;margin:0 auto;width:100%}
-.det-title{font-family:'Instrument Serif',serif;font-size:clamp(21px,4.5vw,28px);line-height:1.18;letter-spacing:-.02em;margin-bottom:11px;color:var(--ink)}
+.det-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(20px,4.5vw,26px);font-weight:800;line-height:1.2;letter-spacing:-.025em;margin-bottom:11px;color:var(--ink)}
 .det-byline{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .det-by-item{font-size:12px;color:var(--ink4);display:flex;align-items:center;gap:4px}
-.det-intro{font-family:'Satoshi',sans-serif;font-size:15px;line-height:1.85;color:var(--ink2);margin-bottom:16px;border-left:2px solid var(--a);padding-left:14px}
+.det-intro{font-size:15px;line-height:1.85;color:var(--ink2);margin-bottom:16px;border-left:2px solid var(--a);padding-left:14px}
 .det-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:9px}
 .det-bullets{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:15px}
 .det-bullets li{display:flex;gap:11px;font-size:14px;line-height:1.75;color:var(--ink2);padding-bottom:9px;border-bottom:1px solid var(--rule)}
@@ -550,7 +544,7 @@ input,select{border:none;outline:none}
 
 /* Interest detail */
 .int-det-hero{background:var(--white);padding:16px clamp(14px,4vw,28px);border-bottom:1px solid var(--rule)}
-.int-det-name{font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:-.02em;margin-bottom:4px;color:var(--ink)}
+.int-det-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.025em;margin-bottom:4px;color:var(--ink)}
 .int-det-meta{display:flex;gap:11px;flex-wrap:wrap;font-size:12px;color:var(--ink4)}
 .int-det-feed{padding:11px clamp(12px,3vw,22px)}
 .int-date-hdr{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin:11px 0 7px;display:flex;align-items:center;gap:8px}
@@ -564,7 +558,7 @@ input,select{border:none;outline:none}
 .qv-seg{flex:1;height:3px;border-radius:2px;background:var(--rule);transition:background .35s}
 .qv-seg.done{background:var(--a)}.qv-seg.active{background:var(--a-mid)}
 .qv-n{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:7px}
-.qv-q{font-family:'Instrument Serif',serif;font-size:clamp(18px,3.8vw,22px);line-height:1.38;letter-spacing:-.02em;margin-bottom:20px;color:var(--ink)}
+.qv-q{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(17px,3.8vw,21px);font-weight:700;line-height:1.38;letter-spacing:-.02em;margin-bottom:20px;color:var(--ink)}
 .qv-opts{display:flex;flex-direction:column;gap:7px}
 .qv-opt{background:var(--surface);border:1.5px solid var(--rule);border-radius:var(--r);padding:12px 14px;font-size:14px;font-weight:500;color:var(--ink2);text-align:left;display:flex;align-items:center;gap:11px;transition:all .2s var(--ease);font-family:'Satoshi',sans-serif}
 .qv-opt::before{content:attr(data-l);font-size:11px;font-weight:700;width:24px;height:24px;border-radius:50%;background:var(--white);border:1.5px solid var(--rule2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink3);transition:all .2s}
@@ -575,7 +569,7 @@ input,select{border:none;outline:none}
 .qv-opt.wrong{background:var(--err-pale);border-color:var(--err);color:var(--err)}
 .qv-opt.wrong::before{background:var(--err);border-color:var(--err);color:var(--white)}
 .qv-result{text-align:center;padding:36px 20px}
-.qv-score{font-family:'Instrument Serif',serif;font-size:64px;font-style:italic;color:var(--a);line-height:1;margin-bottom:6px;animation:scaleIn .5s var(--ease-s)}
+.qv-score{font-family:'Plus Jakarta Sans',sans-serif;font-size:64px;font-weight:800;color:var(--a);line-height:1;margin-bottom:6px;animation:scaleIn .5s var(--ease-s)}
 .qv-score-lbl{font-size:15px;color:var(--ink3);margin-bottom:24px}
 .qv-result-btns{display:flex;flex-direction:column;gap:8px}
 
@@ -586,7 +580,7 @@ input,select{border:none;outline:none}
 .pf-hdr{display:flex;align-items:center;gap:11px;padding:12px clamp(14px,4vw,28px);border-bottom:1px solid var(--rule);background:var(--white);position:sticky;top:0;z-index:20}
 .pf-body{padding:24px clamp(14px,4vw,28px);max-width:480px;width:100%}
 .pf-avatar{width:72px;height:72px;border-radius:50%;background:var(--a);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin-bottom:12px}
-.pf-name{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:2px}
+.pf-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.025em;color:var(--ink);margin-bottom:2px}
 .pf-email{font-size:13px;color:var(--ink3);margin-bottom:4px}
 .pf-occ{font-size:12px;color:var(--ink4);background:var(--surface);display:inline-block;padding:3px 10px;border-radius:4px;margin-bottom:24px}
 .pf-sec-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;margin-top:24px}
@@ -614,6 +608,19 @@ input,select{border:none;outline:none}
 .audio-lmt{font-size:9px;font-weight:700;letter-spacing:.06em;color:#3a4050;text-transform:uppercase;flex-shrink:0}
 .audio-close{color:#3a4050;font-size:20px;flex-shrink:0;transition:color .15s}
 .audio-close:hover{color:var(--white)}
+
+/* Desktop: top tabs visible, bottom nav hidden */
+@media(min-width:768px){
+  .db-bnav{display:none}
+  .db-tabs{display:flex}
+}
+/* Mobile: top tabs hidden, bottom nav shown */
+@media(max-width:767px){
+  .db-tabs{display:none}
+  .db-bnav{display:flex}
+}
+/* Audio bar bottom offset: above bottom nav on mobile, at bottom on desktop */
+@media(min-width:768px){.audio{bottom:0}}
 </style>
 </head>
 <body>
@@ -623,7 +630,15 @@ input,select{border:none;outline:none}
   <nav class="nav">
     <!-- Logo: Satoshi 900, single wordmark, green dot separator -->
     <div class="logo">
-      <div class="logo-word"><span class="lo-pz">pz</span><span class="lo-dot">•</span><span class="lo-news">news</span></div>
+      <svg class="logo-icon-svg" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="1" width="13" height="17" rx="2" fill="#1a5e3c" opacity=".12"/>
+        <rect x="2" y="1" width="13" height="17" rx="2" stroke="#1a5e3c" stroke-width="1.4"/>
+        <path d="M5.5 6h6M5.5 10h6M5.5 14h4" stroke="#1a5e3c" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M17 5.5l3 3-3 3" stroke="#1a5e3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-word">
+        pz<span class="lo-dot">•</span>news
+      </div>
     </div>
     <div class="nav-r">
       <button class="nav-link" onclick="showScreen('signin')">Sign in</button>
@@ -635,7 +650,7 @@ input,select{border:none;outline:none}
   <section class="hero">
     <div class="hero-content">
       <div class="hero-tag rise"><span class="hero-tag-line"></span>Your daily personalised briefing</div>
-      <h1 class="hero-h1 rise r1">Stay ahead on what <em>matters</em> to you.</h1>
+      <h1 class="hero-h1 rise r1">Stay ahead on what <span class="accent">matters</span> to you.</h1>
       <p class="hero-sub rise r2">Pick any topic, <strong>YouTube channel</strong>, or <strong>playlist</strong>. Every morning, pz·news delivers one clean, deduplicated briefing — <strong>read it</strong> or <strong>listen</strong> on your commute.</p>
       <div class="hero-actions rise r3">
         <button class="btn btn-primary btn-wide" onclick="showScreen('signin')">Get started in 60 seconds →</button>
@@ -702,6 +717,57 @@ input,select{border:none;outline:none}
     </div>
   </div>
 
+
+  <!-- Digest preview section -->
+  <div class="s s-bg" id="preview-sec">
+    <div class="s-eye">What it looks like</div>
+    <h2 class="s-title">Your digest, every morning.</h2>
+    <p class="s-sub">Here is a sample of what waits for you each day. Clean, structured, and sourced from across the web.</p>
+    <div style="max-width:360px;margin:36px auto 0;background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh3)">
+      <div style="background:var(--white);padding:12px 16px;border-bottom:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:15px;color:var(--ink)">pz<span style="color:var(--a)">•</span>news</div>
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--a);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">P</div>
+      </div>
+      <div style="display:flex;border-bottom:1px solid var(--rule);padding:0 16px">
+        <div style="padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--a);border-bottom:2px solid var(--a);font-family:'Satoshi',sans-serif">Digest</div>
+        <div style="padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);font-family:'Satoshi',sans-serif">Interests</div>
+        <div style="padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);font-family:'Satoshi',sans-serif">Glossary</div>
+      </div>
+      <div style="padding:12px 16px 6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--ink)">Good morning 👋</div>
+      <div style="padding:0 16px 10px;font-size:11px;color:var(--ink3)">Your briefing for today</div>
+      <div style="margin:0 16px 10px;background:var(--white);border:1px solid var(--rule);border-radius:10px;overflow:hidden">
+        <div style="height:2px;background:#4f46e5"></div>
+        <div style="padding:12px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;display:inline-block;margin-bottom:7px;background:#eeecff;color:#4f46e5">AI AGENTS</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:6px">OpenAI launches Operator — autonomous agents that can book, buy and manage tasks</div>
+          <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:8px">A significant shift from AI assistants to agents capable of taking real actions on the web on your behalf.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:7px;border-top:1px solid var(--rule)">
+            <div style="font-size:10px;color:var(--ink4)">📰 5 sources</div>
+            <div style="display:flex;gap:5px">
+              <div style="background:var(--surface);border:1px solid var(--rule);border-radius:5px;padding:4px 9px;font-size:10px;font-weight:600;color:var(--ink3);font-family:'Satoshi',sans-serif">🎧 Listen</div>
+              <div style="background:var(--surface);border:1px solid var(--rule);border-radius:5px;padding:4px 9px;font-size:10px;font-weight:600;color:var(--ink3);font-family:'Satoshi',sans-serif">🧠 Quiz</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin:0 16px 16px;background:var(--white);border:1px solid var(--rule);border-radius:10px;overflow:hidden">
+        <div style="height:2px;background:#1a5e3c"></div>
+        <div style="padding:12px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;display:inline-block;margin-bottom:7px;background:#e8f5ee;color:#1a5e3c">▶ FIRESHIP</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:6px">React 19 is here — what actually changed and what you need to update</div>
+          <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:8px">Server components stable, new compiler in beta, and several hooks deprecated.</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:7px;border-top:1px solid var(--rule)">
+            <div style="font-size:10px;color:var(--ink4)">📰 YouTube + 3 articles</div>
+            <div style="display:flex;gap:5px">
+              <div style="background:var(--surface);border:1px solid var(--rule);border-radius:5px;padding:4px 9px;font-size:10px;font-weight:600;color:var(--ink3);font-family:'Satoshi',sans-serif">🎧 Listen</div>
+              <div style="background:var(--surface);border:1px solid var(--rule);border-radius:5px;padding:4px 9px;font-size:10px;font-weight:600;color:var(--ink3);font-family:'Satoshi',sans-serif">🧠 Quiz</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Testimonial — "10 minutes" bolded, stat fixed to 10 min -->
   <div class="s s-dark">
     <div class="proof-q rise">"I used to spend <strong>45 minutes every morning</strong> reading the same story across five different tabs. Now I get one clean briefing and I'm done in under <strong>10 minutes</strong>."</div>
@@ -725,7 +791,13 @@ input,select{border:none;outline:none}
     </div>
   </div>
 
-  <div class="site-footer"><span>© 2026 pz·news</span><span>Built by Parvez for curious minds</span></div>
+  <div class="site-footer">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="logo-word" style="font-size:17px">pz<span class="lo-dot">•</span>news</div>
+      <div style="font-size:12px;color:var(--ink4);line-height:1.65">Your daily personalised briefing.<br>Built by Parvez for curious minds.</div>
+    </div>
+    <div style="font-size:12px;color:var(--ink4)">© 2026 pz·news</div>
+  </div>
 </div>
 
 <!-- ══ SIGN IN ════════════════════════════════ -->
@@ -734,7 +806,8 @@ input,select{border:none;outline:none}
     <div class="si-bar">
       <button onclick="showScreen('landing')" style="font-size:16px;color:var(--ink3)">←</button>
       <div class="logo">
-        <div class="logo-word" style="font-size:17px"><span class="lo-pz">pz</span><span class="lo-dot">•</span><span class="lo-news">news</span></div>
+        <svg class="logo-icon-svg" viewBox="0 0 22 22" fill="none"><rect x="2" y="1" width="13" height="17" rx="2" fill="#1a5e3c" opacity=".12"/><rect x="2" y="1" width="13" height="17" rx="2" stroke="#1a5e3c" stroke-width="1.4"/><path d="M5.5 6h6M5.5 10h6M5.5 14h4" stroke="#1a5e3c" stroke-width="1.4" stroke-linecap="round"/><path d="M17 5.5l3 3-3 3" stroke="#1a5e3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="logo-word" style="font-size:16px">pz<span class="lo-dot">•</span>news</div>
       </div>
     </div>
     <div class="si-body">
@@ -744,7 +817,7 @@ input,select{border:none;outline:none}
         </div>
         <div class="si-title">Welcome to pz·news</div>
         <div class="si-sub">Sign in to build your personalised daily briefing across topics, YouTube channels, and playlists.</div>
-        <button class="btn-google btn" onclick="goOnboarding(true)"><div class="g-icon"></div>Continue with Google</button>
+        <button class="btn-google btn" onclick="handleGoogleSignIn()"><div class="g-icon"></div>Continue with Google</button>
         <div class="si-or">or</div>
         <button class="btn btn-flat" onclick="showGuestModal()">Continue as Guest</button>
         <div class="si-terms">By continuing you agree to our Terms of Service and Privacy Policy.</div>
@@ -907,7 +980,8 @@ input,select{border:none;outline:none}
   <div class="db-hdr">
     <div class="db-top">
       <div class="logo">
-        <div class="logo-word" style="font-size:17px"><span class="lo-pz">pz</span><span class="lo-dot">•</span><span class="lo-news">news</span></div>
+        <svg class="logo-icon-svg" viewBox="0 0 22 22" fill="none"><rect x="2" y="1" width="13" height="17" rx="2" fill="#1a5e3c" opacity=".12"/><rect x="2" y="1" width="13" height="17" rx="2" stroke="#1a5e3c" stroke-width="1.4"/><path d="M5.5 6h6M5.5 10h6M5.5 14h4" stroke="#1a5e3c" stroke-width="1.4" stroke-linecap="round"/><path d="M17 5.5l3 3-3 3" stroke="#1a5e3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="logo-word" style="font-size:15px">pz<span class="lo-dot">•</span>news</div>
       </div>
       <div class="db-r">
         <div class="db-guest" id="gBadge" style="display:none">Guest</div>
@@ -973,7 +1047,7 @@ input,select{border:none;outline:none}
   <div class="pf-body" id="pfBody">
     <div class="pf-avatar" id="pfAvatar">P</div>
     <div class="pf-name" id="pfName">Parvez M.</div>
-    <div class="pf-email" id="pfEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6313021115061923061b020e130f064d000c0e">[email&#160;protected]</a></div>
+    <div class="pf-email" id="pfEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3f4f5e4d495a457f5a475e524f535a115c5052">[email&#160;protected]</a></div>
     <div class="pf-occ" id="pfOcc">Full-time employee</div>
 
     <div class="pf-sec-title">Account</div>
@@ -1124,6 +1198,16 @@ function buildTicker(){
   const tr=document.getElementById('tickerTrack');if(!tr)return;
   const all=[...items,...items];
   tr.innerHTML=all.map(t=>`<span class="ticker-item"><span>${t}</span></span><span class="ticker-sep">·</span>`).join('');
+}
+
+
+/* ── GOOGLE SIGN IN ──
+   window.open must be called synchronously from the button onclick
+   to avoid popup blockers. In production replace with real OAuth URL. */
+function handleGoogleSignIn(){
+  // In production: const popup = window.open(googleOAuthUrl, '_blank', 'width=500,height=600');
+  // For prototype: simulate successful sign-in
+  goOnboarding(true);
 }
 
 /* ── SCREEN NAV ── */

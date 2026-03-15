@@ -45,7 +45,7 @@ pz-news/
 | Layer | Choice |
 |---|---|
 | Frontend | Next.js 14 App Router, Tailwind CSS, TypeScript |
-| Fonts | Satoshi Variable (UI, body, logo) + Instrument Serif (editorial headings, article titles) |
+| Fonts | Satoshi Variable (UI, body, logo) + Plus Jakarta Sans (all headings h1/h2/h3) |
 | Brand accent | `#1a5e3c` (forest green) |
 | API | Cloudflare Workers, Hono router |
 | Database | Cloudflare D1 (SQLite) |
@@ -91,6 +91,36 @@ pz-news/
 ```
 
 ---
+
+
+## Google Sign-In — Popup Blocker Fix
+
+`window.open()` for Google OAuth **must** be called synchronously from the button's `onClick` handler. Never wrap it in `async/await`, `setTimeout`, or `useEffect`. Pattern:
+
+```tsx
+// CORRECT — called directly from onClick
+<button onClick={() => {
+  const popup = window.open(googleOAuthUrl, '_blank', 'width=500,height=600,popup=1')
+  // handle redirect
+}}>Continue with Google</button>
+
+// WRONG — popup will be blocked
+<button onClick={async () => {
+  await someAsyncThing()  // browser loses gesture context here
+  window.open(...)        // BLOCKED
+}}>Continue with Google</button>
+```
+
+## Mobile vs Desktop Navigation
+
+On mobile (`< 768px`): bottom nav only. Top domain tabs are hidden via CSS (`display:none`).
+On desktop (`>= 768px`): top tabs only. Bottom nav is hidden via CSS (`display:none`).
+Never show both simultaneously.
+
+```css
+@media(min-width:768px) { .db-bnav { display:none } .db-tabs { display:flex } }
+@media(max-width:767px) { .db-tabs { display:none } .db-bnav { display:flex } }
+```
 
 ## Logo
 
@@ -148,17 +178,32 @@ Must select one before continuing. Stored in `users.occupation`. Shown in profil
 ## Hardcoded Suggestions (edit here to update)
 
 ```js
-// Topics (9) — 2025/26 trends
-['AI Agents','Space Commercialisation','Longevity Research','Climate Tech',
- 'Indian Economy','Quantum Computing','Neurotech','Open Source AI','Geopolitics']
+// Topics (9)
+['Generative AI','AI Agents','AI Native Development','Vibe Coding',
+ 'Developer Experience','Product Led Growth','Design Systems',
+ 'Cloud Native Architecture','Multi Agent Systems']
 
-// Channels (9)
-['Lex Fridman','Kurzgesagt','Veritasium','3Blue1Brown','Y Combinator',
- 'TED','Fireship','Two Minute Papers','Real Engineering']
+// Channels (9) — full YouTube URLs
+['https://www.youtube.com/c/Fireship',
+ 'https://www.youtube.com/c/Freecodecamp',
+ 'https://www.youtube.com/c/ThePrimeagen',
+ 'https://www.youtube.com/c/TraversyMedia',
+ 'https://www.youtube.com/c/ProductSchool',
+ 'https://www.youtube.com/c/YCombinator',
+ 'https://www.youtube.com/c/DesignCourse',
+ 'https://www.youtube.com/c/TwoMinutePapers',
+ 'https://www.youtube.com/c/GoogleDevelopers']
 
-// Playlists (9)
-['CS50 Harvard','MIT OpenCourseWare','Khan Academy Math','Stanford ML',
- 'TED-Ed Science','freeCodeCamp','Andrej Karpathy ML','Yale Open Courses','NPTEL Engineering']
+// Playlists (9) — full YouTube playlist URLs
+['https://www.youtube.com/playlist?list=PLhQjrBD2T381NyO-bf9n5YJZ5v1dTn8qJ',
+ 'https://www.youtube.com/playlist?list=PLkDaE6sCZn6FNC6YRfRQc_FbeQrF8BwGI',
+ 'https://www.youtube.com/playlist?list=PLMCXHnjXnTnttRB6Ecnf3YqT4vB6G3KxR',
+ 'https://www.youtube.com/playlist?list=PLQ-uHSnFig5NV4Jw1c6hK0QmXkYV6H1yC',
+ 'https://www.youtube.com/playlist?list=PL5q_lef6zVkaTyZEDVQf9W2VJkG7gH8fU',
+ 'https://www.youtube.com/playlist?list=PLTZYG7bZ1u6qj0pYQF0EY50jYOEoTP0RF',
+ 'https://www.youtube.com/playlist?list=PL0vfts4VzfNiX_9y6H0IYp5hN0nqD1L4k',
+ 'https://www.youtube.com/playlist?list=PLJbE2Yu2zumCFXz3oD5pX7YhG7FQ0y9JH',
+ 'https://www.youtube.com/playlist?list=PLWKjhJtqVAbmMuZ3saqRIBimAKIMYkt0E']
 ```
 
 ---
@@ -461,6 +506,48 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=
 - JWT expires 7 days. Admin routes check `role === 'admin'` on every request.
 
 ---
+
+
+## Vercel Environment Variables (required for API to work)
+
+Add these in Vercel Dashboard → Project → Settings → Environment Variables:
+
+```
+NEXT_PUBLIC_API_URL = https://pz-news.[account].workers.dev
+NEXT_PUBLIC_GOOGLE_CLIENT_ID = [your Google OAuth client ID]
+```
+
+Without `NEXT_PUBLIC_API_URL` the frontend silently fails to fetch summaries. This is the most common cause of a blank digest on the live site.
+
+## Cloudflare Worker CORS
+
+In `worker/src/index.ts`, ensure CORS headers allow both origins:
+
+```ts
+const ALLOWED_ORIGINS = [
+  'https://pz-news.vercel.app',
+  'http://localhost:3000',
+]
+
+app.use('*', (c, next) => {
+  const origin = c.req.header('Origin') || ''
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    c.header('Access-Control-Allow-Origin', origin)
+  }
+  c.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS')
+  c.header('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  if (c.req.method === 'OPTIONS') return c.text('', 204)
+  return next()
+})
+```
+
+All API error responses must return JSON, never HTML (which breaks `JSON.parse` in the frontend):
+
+```ts
+app.onError((err, c) => {
+  return c.json({ error: err.message || 'Internal error' }, 500)
+})
+```
 
 ## Deployment & Publishing
 

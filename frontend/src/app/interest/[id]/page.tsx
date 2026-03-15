@@ -294,7 +294,7 @@ export default function InterestDetailPage({
                     >
                       <div style={{ height: 3, background: palette.color }} />
                       <div style={{ padding: "13px 15px" }}>
-                        <div style={{ fontFamily: "var(--font-serif), serif", fontSize: 16, fontWeight: 400, lineHeight: 1.3, color: "var(--ink)", marginBottom: 8 }}>
+                        <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 16, fontWeight: 400, lineHeight: 1.3, color: "var(--ink)", marginBottom: 8 }}>
                           {s.title}
                         </div>
                         <div style={{ fontSize: 13, color: "var(--ink3)", lineHeight: 1.6, marginBottom: 8 }}>

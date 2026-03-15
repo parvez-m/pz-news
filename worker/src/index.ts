@@ -10,7 +10,29 @@ import audioRoutes from "./routes/audio";
 import adminRoutes from "./routes/admin";
 import { runPipeline } from "./services/pipeline";
 
+const ALLOWED_ORIGINS = [
+  "https://pz-news.vercel.app",
+  "http://localhost:3000",
+];
+
 const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
+
+// CORS middleware
+app.use("*", async (c, next) => {
+  const origin = c.req.header("Origin") ?? "";
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    c.header("Access-Control-Allow-Origin", origin);
+  }
+  c.header("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
+  c.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  if (c.req.method === "OPTIONS") return c.text("", 204);
+  return next();
+});
+
+// JSON error handler
+app.onError((err, c) => {
+  return c.json({ error: err.message || "Internal error" }, 500);
+});
 
 app.get("/", (c) => c.json({ status: "ok", service: "pz-news-worker" }));
 
@@ -29,8 +51,6 @@ export default {
   fetch: app.fetch,
 
   async scheduled(_event: ScheduledEvent, env: Bindings, ctx: ExecutionContext) {
-    // Daily digest pre-generation for all active users (cron: 0 2 * * *)
-    // TODO: query all users with active topics and enqueue refresh jobs
     ctx.waitUntil(Promise.resolve());
   },
 

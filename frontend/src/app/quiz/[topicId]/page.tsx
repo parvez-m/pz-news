@@ -152,7 +152,7 @@ export default function QuizPage({
                     <div style={{ fontSize: 13, fontWeight: 600, color: isRight ? "var(--grn)" : "#dc2626", marginBottom: 4 }}>
                       {isRight ? "✓" : "✗"} Q{qi + 1}
                     </div>
-                    <div style={{ fontFamily: "var(--font-serif), serif", fontSize: 14, fontWeight: 400, color: "var(--ink)", marginBottom: 8, lineHeight: 1.4 }}>
+                    <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 14, fontWeight: 400, color: "var(--ink)", marginBottom: 8, lineHeight: 1.4 }}>
                       {q.question}
                     </div>
                     {q.options.map((opt, oi) => {
