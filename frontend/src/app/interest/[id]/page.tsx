@@ -16,7 +16,7 @@ import {
 const PALETTE = [
   { color: "#6d28d9", bg: "#f5f3ff" },
   { color: "#be185d", bg: "#fdf2f8" },
-  { color: "#c84521", bg: "#fdf2ee" },
+  { color: "#1a5e3c", bg: "#e8f5ee" },
   { color: "#1d4ed8", bg: "#eff6ff" },
   { color: "#2e6b4a", bg: "#edf5f0" },
   { color: "#b45309", bg: "#fffbeb" },

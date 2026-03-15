@@ -28,7 +28,7 @@ const PAPER_CARDS = [
     foot: "8 sources, deduplicated",
   },
   {
-    color: "#c84521",
+    color: "#1a5e3c",
     who: "▶ Lex Fridman Podcast",
     title: "Lex Fridman's 4-hour conversation with Demis Hassabis. The key takeaways.",
     blurb: "The DeepMind founder spoke candidly about AGI timelines, protein folding, and why he believes scientific discovery is AI's true superpower...",
@@ -38,14 +38,14 @@ const PAPER_CARDS = [
 
 const SOURCE_CARDS = [
   {
-    iconBg: "#fdf2ee",
+    iconBg: "#e8f5ee",
     icon: "📰",
     title: "Topics & Keywords",
     desc: "Follow any subject. We monitor hundreds of news sources, blogs, and publications and summarise what's new. No repetitions, no noise.",
     chips: ["Generative AI", "AI Agents", "AI Native Development", "Vibe Coding", "Developer Experience", "Product Led Growth"],
   },
   {
-    iconBg: "#fff5f5",
+    iconBg: "#e8f5ee",
     icon: "▶️",
     title: "YouTube Channels",
     desc: "Never miss a video from creators you love. Get a written summary of every new upload. Skip the 30-minute video, read the 2-minute brief.",
