@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>pz·news — Stay ahead on what matters to you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<!-- Satoshi Variable from Fontshare CDN -->
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --white:   #ffffff;
+  --paper:   #f6f8fa;
+  --surface: #eef1f4;
+  --sur2:    #e4e8ed;
+  --rule:    #dde2e8;
+  --rule2:   #c8d0d9;
+
+  --ink:  #0d1117;
+  --ink2: #24292f;
+  --ink3: #57606a;
+  --ink4: #8c959f;
+
+  /* Brand */
+  --a:      #1a5e3c;
+  --a-dark: #124229;
+  --a-mid:  #276b47;
+  --a-pale: #e8f5ee;
+  --a-rule: rgba(26,94,60,.14);
+
+  /* Category badges */
+  --c-violet: #4f46e5; --c-violet-pale: #eeecff;
+  --c-rose:   #be123c; --c-rose-pale:   #fff1f4;
+  --c-blue:   #1d4ed8; --c-blue-pale:   #eff4ff;
+  --c-amber:  #b45309; --c-amber-pale:  #fefce8;
+  --c-slate:  #334155; --c-slate-pale:  #f1f5f9;
+  --c-teal:   #0d7490; --c-teal-pale:   #ecfeff;
+
+  /* System */
+  --ok:   #16a34a; --ok-pale:   #f0fdf4;
+  --warn: #b45309; --warn-pale: #fffbeb;
+  --err:  #dc2626; --err-pale:  #fef2f2;
+
+  --r:    8px;
+  --r-lg: 14px;
+  --ease: cubic-bezier(.4,0,.2,1);
+  --ease-s: cubic-bezier(.34,1.56,.64,1);
+
+  --sh1: 0 1px 3px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.04);
+  --sh2: 0 4px 20px rgba(0,0,0,.09),0 1px 4px rgba(0,0,0,.05);
+  --sh3: 0 12px 40px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.05);
+}
+
+/* ═══════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Satoshi',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.6;overflow-x:hidden}
+button,input,select{font-family:'Satoshi',sans-serif;cursor:pointer}
+button{border:none;background:none}
+input,select{border:none;outline:none}
+
+/* Screens */
+.screen{display:none}
+.screen.active{display:block;min-height:100vh}
+#dashboard.active{display:flex;flex-direction:column}
+#profile.active{display:block}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes rise   {from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes spin   {to{transform:rotate(360deg)}}
+@keyframes ticker {0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.rise {animation:rise .5s var(--ease) both}
+.r1{animation-delay:.07s}.r2{animation-delay:.14s}.r3{animation-delay:.21s}.r4{animation-delay:.28s}
+
+.skel{background:linear-gradient(90deg,var(--surface) 25%,var(--rule) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
+
+/* ═══════════════════════════════════════════
+   LOGO
+═══════════════════════════════════════════ */
+.logo{display:inline-flex;align-items:center;text-decoration:none}
+.logo-word{
+  font-family:'Satoshi',sans-serif;
+  font-weight:900;
+  font-size:19px;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  line-height:1;
+}
+.logo-word .lo-dot{color:var(--a)}
+
+/* ═══════════════════════════════════════════
+   GLOBAL BUTTONS
+═══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:8px;border-radius:var(--r);font-weight:600;
+  font-size:14px;letter-spacing:.01em;
+  transition:all .2s var(--ease);white-space:nowrap;
+}
+.btn-primary{background:var(--a);color:var(--white);padding:13px 22px;box-shadow:0 3px 10px rgba(26,94,60,.22)}
+.btn-primary:hover{background:var(--a-dark);transform:translateY(-1px);box-shadow:0 5px 16px rgba(26,94,60,.32)}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{background:transparent;color:var(--ink2);border:1.5px solid var(--rule2);padding:12px 22px}
+.btn-ghost:hover{border-color:var(--ink3);background:var(--surface)}
+.btn-flat{background:var(--surface);color:var(--ink3);border:1px solid var(--rule);padding:12px 20px;font-size:13px;font-weight:500;width:100%}
+.btn-flat:hover{border-color:var(--rule2);color:var(--ink2)}
+.btn-wide{width:100%;padding:14px}
+.btn-google{background:var(--white);color:var(--ink);border:1.5px solid var(--rule2);padding:13px 20px;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-shadow:var(--sh1)}
+.btn-google:hover{border-color:var(--ink3);box-shadow:var(--sh2);transform:translateY(-1px)}
+.g-icon{width:20px;height:20px;flex-shrink:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.5-1.45-.79-3-.79-4.59s.29-3.14.79-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3C/svg%3E") center/contain no-repeat}
+
+.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--ink);color:var(--white);padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;opacity:0;pointer-events:none;z-index:9000;transition:all .25s var(--ease);white-space:nowrap;box-shadow:var(--sh3)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s var(--ease)}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal-sheet{background:var(--white);width:100%;max-width:460px;border-radius:16px 16px 0 0;padding:28px 24px 36px;transform:translateY(100%);transition:transform .35s var(--ease);box-shadow:0 -8px 40px rgba(0,0,0,.14)}
+.modal-overlay.show .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--rule);border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;color:var(--ink)}
+.modal-sub{font-size:13.5px;color:var(--ink3);line-height:1.7;margin-bottom:18px}
+.modal-btns{display:flex;flex-direction:column;gap:8px}
+
+/* ═══════════════════════════════════════════
+   LANDING
+═══════════════════════════════════════════ */
+#landing{background:var(--white)}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;height:58px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,5vw,56px);
+}
+.nav-r{display:flex;align-items:center;gap:6px}
+.nav-link{font-size:13px;font-weight:500;color:var(--ink3);padding:7px 12px;border-radius:var(--r);transition:all .15s}
+.nav-link:hover{color:var(--ink);background:var(--surface)}
+.nav-cta{background:var(--ink);color:var(--white);border-radius:var(--r);padding:8px 16px;font-size:13px;font-weight:600;transition:all .2s;letter-spacing:.01em}
+.nav-cta:hover{background:var(--ink2);transform:translateY(-1px)}
+
+/* HERO — centred */
+.hero{
+  padding:72px clamp(20px,5vw,40px) 80px;
+  background:var(--white);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(26,94,60,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(26,94,60,.035) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 70% 55% at 50% 40%,black 0%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 40%,black 0%,transparent 100%);
+}
+.hero-content{position:relative;z-index:1;max-width:680px;display:flex;flex-direction:column;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:22px}
+.hero-tag-line{width:20px;height:1.5px;background:var(--a)}
+.hero-h1{font-family:'Instrument Serif',serif;font-size:clamp(40px,7vw,70px);line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin-bottom:20px}
+.hero-h1 em{font-style:italic;color:var(--a)}
+.hero-sub{font-size:clamp(15px,2vw,17px);line-height:1.8;color:var(--ink3);max-width:520px;margin-bottom:36px}
+.hero-sub strong{color:var(--ink);font-weight:500}
+.hero-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:260px;margin-bottom:24px}
+.hero-nudges{display:flex;flex-direction:column;gap:6px;align-items:center}
+.hero-nudge{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink4)}
+.nudge-check{color:var(--a);font-weight:700}
+
+/* Ticker */
+.ticker-bar{background:var(--ink);overflow:hidden;padding:11px 0;border-top:1px solid rgba(255,255,255,.06)}
+.ticker-inner{display:flex;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 28px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#4a5060;flex-shrink:0}
+.ticker-item span{color:#7a8290}
+.ticker-sep{color:#2a2f36;font-size:14px;margin-left:20px}
+
+/* Audience strip */
+.aud-strip{overflow-x:auto;display:flex;padding:16px clamp(20px,5vw,56px);gap:0;background:var(--white);border-bottom:1px solid var(--rule);scrollbar-width:none}
+.aud-strip::-webkit-scrollbar{display:none}
+.aud-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 20px;flex-shrink:0;border-right:1px solid var(--rule)}
+.aud-item:last-child{border-right:none}
+.aud-icon{font-size:20px;line-height:1}
+.aud-lbl{font-size:11px;font-weight:700;color:var(--ink2);white-space:nowrap;letter-spacing:.01em}
+.aud-sub{font-size:10px;color:var(--ink4);white-space:nowrap}
+
+/* Section wrapper */
+.s{padding:68px clamp(20px,5vw,56px)}
+.s-bg{background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.s-white{background:var(--white)}
+.s-dark{background:var(--ink)}
+.s-eye{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.s-eye::before{content:'';width:18px;height:1.5px;background:var(--a);flex-shrink:0}
+.s-title{font-family:'Instrument Serif',serif;font-size:clamp(26px,4vw,38px);line-height:1.18;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.s-sub{font-size:15px;line-height:1.8;color:var(--ink3);max-width:480px}
+
+/* Sources grid */
+.src-grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:36px;border:1px solid var(--rule)}
+@media(min-width:640px){.src-grid{grid-template-columns:repeat(3,1fr)}}
+.src-cell{background:var(--white);padding:28px 24px;border-right:1px solid var(--rule);transition:background .18s}
+@media(max-width:639px){.src-cell{border-right:none;border-bottom:1px solid var(--rule)}}
+.src-cell:last-child{border-right:none;border-bottom:none}
+.src-cell:hover{background:var(--paper)}
+.src-n{font-family:'Instrument Serif',serif;font-size:40px;font-style:italic;color:var(--rule2);line-height:1;margin-bottom:14px}
+.src-t{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+.src-d{font-size:13px;color:var(--ink3);line-height:1.7;margin-bottom:14px}
+.src-chips{display:flex;flex-wrap:wrap;gap:5px}
+.src-chip{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:3px 9px;font-size:11px;font-weight:500;color:var(--ink3);transition:all .15s}
+.src-chip:hover{border-color:var(--a-rule);color:var(--a);background:var(--a-pale)}
+
+/* How it works */
+.timeline{display:flex;flex-direction:column;margin-top:36px;border-left:1.5px solid var(--rule);padding-left:28px;max-width:500px}
+.tl-step{padding-bottom:30px;position:relative}
+.tl-step:last-child{padding-bottom:0}
+.tl-num{position:absolute;left:-42px;top:0;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.tl-t{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em}
+.tl-d{font-size:13px;color:var(--ink3);line-height:1.7}
+
+/* Explore grid */
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:28px;border:1px solid var(--rule);max-width:520px;background:var(--rule);gap:1px}
+.ex-cell{background:var(--white);padding:18px 15px;cursor:pointer;transition:background .18s}
+.ex-cell:hover{background:var(--a-pale)}
+.ex-cell:hover .ex-arr{opacity:1;transform:translateX(0)}
+.ex-icon{font-size:20px;margin-bottom:6px;display:block}
+.ex-name{font-size:11px;font-weight:700;color:var(--ink);margin-bottom:2px;letter-spacing:-.01em;line-height:1.3}
+.ex-type{font-size:10px;color:var(--ink4)}
+.ex-arr{font-size:10px;font-weight:700;color:var(--a);opacity:0;transform:translateX(-5px);transition:all .18s;display:block;margin-top:5px}
+
+/* Testimonial */
+.proof-q{font-family:'Instrument Serif',serif;font-size:clamp(17px,3.2vw,23px);font-style:italic;line-height:1.6;color:#e8edf2;margin-bottom:18px;max-width:540px}
+.proof-q strong{font-style:normal;color:var(--white)}
+.proof-by{font-size:13px;color:#4a5568;margin-bottom:32px}
+.proof-by strong{color:#8896a5;font-weight:500}
+.proof-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #1e2530;max-width:340px}
+.proof-stat{padding:16px 12px;text-align:center;border-right:1px solid #1e2530}
+.proof-stat:last-child{border-right:none}
+.proof-num{font-family:'Instrument Serif',serif;font-size:26px;color:var(--white);line-height:1;margin-bottom:3px}
+.proof-lbl{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#303a48}
+
+/* Final CTA */
+.fcta{padding:80px clamp(20px,5vw,56px);background:var(--a-pale);border-top:1px solid var(--a-rule);text-align:center}
+.fcta-title{font-family:'Instrument Serif',serif;font-size:clamp(30px,5vw,48px);font-style:italic;line-height:1.1;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.fcta-sub{font-size:15px;color:var(--ink3);line-height:1.8;margin-bottom:30px;max-width:340px;margin-left:auto;margin-right:auto}
+.fcta-trust{font-size:12px;color:var(--ink4);margin-top:14px;display:flex;flex-wrap:wrap;gap:5px 12px;justify-content:center;align-items:center}
+.fcta-ti{display:flex;align-items:center;gap:4px}
+.tck{color:var(--a);font-weight:700}
+.site-footer{padding:20px clamp(20px,5vw,56px);border-top:1px solid var(--rule);font-size:12px;color:var(--ink4);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;background:var(--white)}
+
+/* ═══════════════════════════════════════════
+   SIGN IN
+═══════════════════════════════════════════ */
+#signin{background:var(--paper)}
+.si-wrap{min-height:100vh;display:flex;flex-direction:column}
+.si-bar{padding:16px clamp(20px,5vw,56px);border-bottom:1px solid var(--rule);background:var(--white);display:flex;align-items:center;gap:12px}
+.si-body{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.si-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:40px 32px;width:100%;max-width:360px;text-align:center;box-shadow:var(--sh2);animation:scaleIn .35s var(--ease)}
+.si-avatar{width:54px;height:54px;margin:0 auto 18px;border-radius:50%;background:var(--a-pale);border:1.5px solid var(--a-rule);display:flex;align-items:center;justify-content:center}
+.si-title{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:7px;color:var(--ink)}
+.si-sub{font-size:13.5px;color:var(--ink3);line-height:1.7;margin-bottom:24px}
+.si-or{display:flex;align-items:center;gap:10px;margin:11px 0;color:var(--ink4);font-size:12px}
+.si-or::before,.si-or::after{content:'';flex:1;height:1px;background:var(--rule)}
+.si-terms{font-size:11px;color:var(--ink4);margin-top:18px;line-height:1.65}
+
+/* Guest modal limits */
+.modal-limits{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;text-align:left}
+.modal-lim-item{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:8px;padding:4px 0}
+.lim-icon{font-size:13px;flex-shrink:0;color:var(--ink4)}
+.modal-upg{font-size:12px;color:var(--ink3);line-height:1.65;margin-bottom:16px;text-align:left}
+.modal-upg strong{color:var(--ink);font-weight:600}
+
+/* ═══════════════════════════════════════════
+   ONBOARDING — shared chrome
+═══════════════════════════════════════════ */
+#onboarding{background:var(--white)}
+.ob-prog{height:2px;background:var(--rule);position:sticky;top:0;z-index:30}
+.ob-bar{height:100%;background:var(--a);transition:width .5s var(--ease)}
+.ob-topbar{display:flex;align-items:center;justify-content:space-between;padding:13px clamp(20px,5vw,40px);border-bottom:1px solid var(--rule)}
+.ob-back{font-size:13px;font-weight:500;color:var(--ink3);display:flex;align-items:center;gap:4px;transition:color .15s}
+.ob-back:hover{color:var(--ink)}
+.ob-step-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.ob-body{padding:28px clamp(20px,5vw,40px) 0}
+.ob-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;color:var(--ink)}
+.ob-sub{font-size:13px;color:var(--ink3);line-height:1.75;margin-bottom:24px}
+.ob-footer{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--rule);padding:13px clamp(20px,5vw,40px);z-index:10}
+
+/* STEP 0 — Occupation */
+.occ-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+.occ-card{background:var(--surface);border:1.5px solid var(--rule);border-radius:var(--r);padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s}
+.occ-card:hover{border-color:var(--rule2);background:var(--sur2)}
+.occ-card.on{border-color:var(--a);background:var(--a-pale)}
+.occ-icon{font-size:22px;margin-bottom:5px;display:block}
+.occ-label{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
+
+/* STEP 1 — Interests */
+.ob-sec{margin-bottom:20px}
+.ob-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.ob-sec-note{font-size:11px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink4)}
+.ob-row{display:flex;gap:7px;margin-bottom:8px}
+.ob-input{flex:1;background:var(--surface);border:1.5px solid var(--rule);border-radius:var(--r);padding:10px 13px;font-size:13px;color:var(--ink);transition:all .2s;font-family:'Satoshi',sans-serif}
+.ob-input:focus{border-color:var(--a);background:var(--white);box-shadow:0 0 0 3px rgba(26,94,60,.1)}
+.ob-input::placeholder{color:var(--ink4)}
+.ob-add{background:var(--ink);color:var(--white);border-radius:var(--r);padding:10px 14px;font-size:13px;font-weight:600;flex-shrink:0;transition:background .2s}
+.ob-add:hover{background:var(--ink2)}
+.ob-tags{display:flex;flex-wrap:wrap;gap:6px;min-height:0}
+.ob-tag{display:inline-flex;align-items:center;gap:6px;border-radius:4px;padding:5px 10px 5px 12px;font-size:12px;font-weight:500;color:var(--white);animation:slideUp .2s var(--ease)}
+.ob-tag.t{background:var(--ink)}
+.ob-tag.c{background:var(--a)}
+.ob-tag.p{background:var(--c-slate)}
+.ob-tag-x{opacity:.55;font-size:14px;line-height:1;transition:opacity .15s}
+.ob-tag-x:hover{opacity:1}
+
+/* Suggestions */
+.ob-sug-wrap{margin-bottom:22px}
+.ob-sug-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ob-sug-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.ob-sug-tabs{display:flex;gap:4px}
+.ob-sug-tab{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:4px 11px;font-size:11px;font-weight:600;color:var(--ink3);transition:all .15s;font-family:'Satoshi',sans-serif}
+.ob-sug-tab.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.ob-sug-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ob-chip{background:var(--surface);border:1.5px solid var(--rule);border-radius:var(--r);padding:7px 12px;font-size:12px;font-weight:500;color:var(--ink2);display:flex;align-items:center;gap:6px;transition:all .17s;cursor:pointer}
+.ob-chip:hover{border-color:var(--a-rule);color:var(--a);background:var(--a-pale)}
+.ob-chip.s-t{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.ob-chip.s-c{background:var(--a);color:var(--white);border-color:var(--a)}
+.ob-chip.s-p{background:var(--c-slate);color:var(--white);border-color:var(--c-slate)}
+
+.ob-sel-bar{padding:11px clamp(20px,5vw,40px);background:var(--surface);border-top:1px solid var(--rule);display:none}
+.ob-sel-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.ob-sel-ct{font-size:12px;font-weight:700;color:var(--a)}
+.ob-clear{font-size:12px;color:var(--ink4);font-weight:500}
+.ob-sel-tags{display:flex;flex-wrap:wrap;gap:5px}
+.ob-mini{display:inline-flex;align-items:center;gap:4px;border-radius:4px;padding:3px 9px;font-size:11px;font-weight:500}
+.ob-mini.t{background:rgba(13,17,23,.08);color:var(--ink)}
+.ob-mini.c{background:var(--a-pale);color:var(--a)}
+.ob-mini.p{background:var(--c-slate-pale);color:var(--c-slate)}
+.ob-mini-x{opacity:.5;cursor:pointer;font-size:12px;line-height:1}
+.ob-mini-x:hover{opacity:1}
+
+.ob-upgrade{background:var(--warn-pale);border:1px solid rgba(180,83,9,.2);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--warn);line-height:1.65;display:none;margin:0 clamp(20px,5vw,40px) 10px}
+.ob-upgrade strong{font-weight:700}
+
+/* Verify */
+.ob-v-body{padding:26px clamp(20px,5vw,40px) 100px}
+.ob-v-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:5px;color:var(--ink)}
+.ob-v-sub{font-size:13px;color:var(--ink3);margin-bottom:20px}
+.v-sec{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:7px;margin-top:16px}
+.v-item{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:11px 14px;display:flex;align-items:center;gap:10px;margin-bottom:6px;animation:slideUp .25s var(--ease) both}
+.v-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.v-name{font-size:13px;font-weight:500;flex:1;color:var(--ink)}
+.v-ok{font-size:10px;font-weight:700;color:var(--ok);letter-spacing:.04em;flex-shrink:0}
+.v-blocked{font-size:10px;font-weight:700;color:var(--ink4);letter-spacing:.04em;flex-shrink:0}
+/* Blocked topic styling */
+.v-item.blocked{opacity:.5}
+.v-item.blocked .v-name{text-decoration:line-through;color:var(--ink3)}
+
+/* STEP 2 — Schedule */
+.ob-s2-body{padding:28px clamp(20px,5vw,40px) 100px}
+.ob-sched-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.ob-sched-opt{background:var(--surface);border:1.5px solid var(--rule);border-radius:var(--r);cursor:pointer;transition:all .2s;overflow:hidden}
+.ob-sched-opt:hover{border-color:var(--rule2)}
+.ob-sched-opt.on{border-color:var(--a);background:var(--a-pale)}
+.ob-sched-main{display:flex;justify-content:space-between;align-items:center;padding:15px}
+.ob-sched-n{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.ob-sched-d{font-size:12px;color:var(--ink3)}
+.ob-sched-icon{font-size:20px}
+/* Time picker inside schedule */
+.ob-time-pick{padding:0 15px 14px;display:none;border-top:1px solid var(--a-rule);margin-top:0}
+.ob-sched-opt.on .ob-time-pick.show{display:block}
+.ob-time-lbl{font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:6px;display:block;margin-top:10px}
+.ob-time-inp{background:var(--white);border:1.5px solid var(--rule2);border-radius:var(--r);padding:8px 12px;font-size:13px;font-family:'Satoshi',sans-serif;color:var(--ink);width:140px;transition:border-color .2s}
+.ob-time-inp:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(26,94,60,.1);outline:none}
+.ob-time-auto{font-size:11px;color:var(--ink4);margin-top:5px}
+.ob-sum{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:12px;font-size:13px;color:var(--ink3);line-height:1.8}
+.ob-sum strong{color:var(--ink);font-weight:600}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════ */
+#dashboard{background:var(--paper)}
+.db-hdr{background:var(--white);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:50}
+.db-top{display:flex;align-items:center;justify-content:space-between;padding:11px clamp(14px,3vw,28px) 0}
+.db-r{display:flex;align-items:center;gap:8px}
+.db-guest{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--warn-pale);color:var(--warn);border:1px solid rgba(180,83,9,.2);border-radius:4px;padding:2px 8px}
+.db-av{width:32px;height:32px;border-radius:50%;background:var(--a);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
+.db-av:hover{background:var(--a-dark);transform:scale(1.05)}
+.db-tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 clamp(10px,2vw,22px);margin-top:6px}
+.db-tabs::-webkit-scrollbar{display:none}
+.db-tab{padding:9px 14px 8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink4);white-space:nowrap;background:none;border:none;border-bottom:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:5px;font-family:'Satoshi',sans-serif}
+.db-tab.on{color:var(--ink);border-bottom-color:var(--a)}
+.db-tab:hover:not(.on){color:var(--ink2)}
+.db-tab-ct{background:var(--surface);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:700;color:var(--ink3);transition:all .15s}
+.db-tab.on .db-tab-ct{background:var(--a-pale);color:var(--a)}
+.db-meta{background:var(--white);border-bottom:1px solid var(--rule);padding:8px clamp(14px,3vw,28px);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.db-meta-txt{font-size:12px;color:var(--ink3)}
+.db-meta-txt strong{color:var(--ink);font-weight:600}
+.btn-refresh{background:var(--a);color:var(--white);border-radius:var(--r);padding:7px 13px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:5px;flex-shrink:0;transition:all .2s;font-family:'Satoshi',sans-serif}
+.btn-refresh:hover:not(:disabled){background:var(--a-dark);transform:translateY(-1px)}
+.btn-refresh:disabled{background:var(--rule);color:var(--ink4);cursor:not-allowed}
+.db-sub-tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:7px clamp(10px,2vw,22px) 0;background:var(--white);border-bottom:1px solid var(--rule)}
+.db-sub-tabs::-webkit-scrollbar{display:none}
+.db-subtab{padding:6px 12px 7px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink4);background:none;border:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;font-family:'Satoshi',sans-serif}
+.db-subtab.on{color:var(--a);border-bottom-color:var(--a)}
+.db-feed{flex:1;padding:12px clamp(12px,3vw,22px);display:flex;flex-direction:column;gap:10px}
+
+/* News card */
+.nc{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .15s;animation:rise .35s var(--ease) both}
+.nc:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--rule2)}
+.nc:active{transform:translateY(-1px)}
+.nc-bar{height:2px}
+.nc-body{padding:14px}
+.nc-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.nc-badge{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:4px}
+.nc-time{font-size:11px;color:var(--ink4)}
+.nc-title{font-family:'Instrument Serif',serif;font-size:16px;line-height:1.32;letter-spacing:-.01em;color:var(--ink);margin-bottom:8px}
+.nc-intro{font-size:13px;line-height:1.7;color:var(--ink2);margin-bottom:8px}
+.nc-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:9px}
+.nc-bullets li{font-size:12.5px;line-height:1.55;color:var(--ink3);display:flex;gap:7px}
+.nc-bullets li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--rule2);flex-shrink:0;margin-top:6px}
+.nc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--rule)}
+.nc-src{font-size:11px;color:var(--ink4)}
+.nc-acts{display:flex;gap:5px}
+.nc-btn{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:5px 10px;font-size:11px;font-weight:600;color:var(--ink3);transition:all .15s;font-family:'Satoshi',sans-serif}
+.nc-btn:hover{border-color:var(--a-rule);color:var(--a);background:var(--a-pale)}
+.nc-btn.yt{color:#900;background:#fff4f4;border-color:#fccaca}
+.sk{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:14px}
+
+/* Groups */
+.grp{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;transition:box-shadow .2s}
+.grp:hover{box-shadow:var(--sh1)}
+.grp-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .15s}
+.grp-hdr:hover{background:var(--surface)}
+.grp-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.grp-nr{flex:1;min-width:0}
+.grp-name{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px;letter-spacing:-.01em}
+.grp-ct{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px}
+.grp-new{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--a-pale);color:var(--a)}
+.grp-brief{font-size:12px;color:var(--ink4)}
+.grp-chev{font-size:15px;color:var(--ink4);margin-left:auto;flex-shrink:0;transition:transform .25s var(--ease)}
+.grp-chev.open{transform:rotate(180deg)}
+.grp-body{border-top:1px solid var(--rule)}
+.grp-setup{padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--rule);display:flex;gap:9px}
+.grp-setup-lbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:4px}
+.grp-setup-txt{font-size:12.5px;color:var(--ink2);line-height:1.65}
+.grp-date{padding:7px 14px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);border-bottom:1px solid var(--rule);background:var(--surface)}
+.grp-row{padding:11px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--rule)}
+.grp-row:last-child{border-bottom:none}
+.grp-row:hover{background:var(--surface)}
+.grp-row-title{font-family:'Instrument Serif',serif;font-size:14px;line-height:1.35;color:var(--ink);margin-bottom:3px}
+.grp-row-intro{font-size:12px;color:var(--ink3);line-height:1.55;margin-bottom:6px}
+.grp-row-foot{display:flex;align-items:center;justify-content:space-between}
+.grp-row-meta{font-size:11px;color:var(--ink4)}
+
+/* Interests */
+.int-panel{padding:11px clamp(12px,3vw,22px)}
+.int-sec-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin:14px 0 7px;display:flex;align-items:center;gap:8px}
+.int-sec-lbl::after{content:'';flex:1;height:1px;background:var(--rule)}
+.int-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:13px 14px;margin-bottom:8px;transition:all .2s}
+.int-card:hover{border-color:var(--rule2);box-shadow:var(--sh1)}
+.int-card.arch{opacity:.55}
+.int-top{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.int-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.int-nr{display:flex;align-items:center;gap:5px;flex:1;min-width:0;flex-wrap:wrap}
+.int-name{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+.int-ct{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
+.int-paused{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--sur2);color:var(--ink4);border-radius:4px;padding:2px 7px;flex-shrink:0}
+.int-brief{font-size:12.5px;color:var(--ink3);line-height:1.55;margin-bottom:9px}
+.int-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px}
+.int-updated{font-size:11px;color:var(--ink4)}
+.int-acts{display:flex;gap:5px;align-items:center}
+.int-btn{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:5px 10px;font-size:11px;font-weight:600;color:var(--ink3);transition:all .15s;font-family:'Satoshi',sans-serif}
+.int-btn:hover{border-color:var(--a-rule);color:var(--a)}
+.int-btn.del:hover{border-color:var(--err);color:var(--err)}
+.int-view{background:var(--a);color:var(--white);border-radius:var(--r);padding:5px 12px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:all .2s;font-family:'Satoshi',sans-serif}
+.int-view:hover{background:var(--a-dark);transform:translateY(-1px)}
+
+/* Glossary */
+.glos-panel{padding:11px clamp(12px,3vw,22px)}
+.glos-filter{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:11px;border-bottom:1px solid var(--rule);margin-bottom:12px}
+.glos-filter::-webkit-scrollbar{display:none}
+.glos-pill{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:4px 12px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);white-space:nowrap;transition:all .15s;font-family:'Satoshi',sans-serif}
+.glos-pill.on{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.glos-pill:hover:not(.on){border-color:var(--ink3);color:var(--ink2)}
+.glos-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;transition:all .2s}
+.glos-card:hover{border-color:var(--rule2);box-shadow:var(--sh1)}
+.glos-term{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em}
+.glos-def{font-size:13px;color:var(--ink3);line-height:1.6}
+.glos-src{font-size:11px;color:var(--ink4);margin-top:5px}
+
+/* Quiz */
+.qz-panel{padding:11px clamp(12px,3vw,22px)}
+.qz-title{font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:-.02em;margin-bottom:4px;color:var(--ink)}
+.qz-sub{font-size:13px;color:var(--ink3);margin-bottom:18px;line-height:1.65}
+.qz-card{background:var(--white);border:1.5px solid var(--rule);border-radius:var(--r);padding:12px 13px;display:flex;align-items:center;gap:10px;margin-bottom:7px;cursor:pointer;transition:all .2s}
+.qz-card:hover{border-color:var(--a-rule);background:var(--a-pale);transform:translateY(-1px)}
+.qz-c-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.qz-c-name{font-size:13px;font-weight:700;color:var(--ink)}
+.qz-c-meta{font-size:11px;color:var(--ink4)}
+.qz-c-arr{margin-left:auto;font-size:15px;color:var(--ink4)}
+
+/* Bottom nav */
+.db-bnav{background:var(--white);border-top:1px solid var(--rule);display:flex;flex-shrink:0}
+.db-nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 12px;gap:3px;background:none;border:none;color:var(--ink4);transition:color .15s}
+.db-nb.on{color:var(--a)}
+.db-nb:hover{color:var(--ink2)}
+.db-nb-icon{font-size:19px;line-height:1}
+.db-nb-lbl{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-family:'Satoshi',sans-serif}
+
+/* ═══════════════════════════════════════════
+   DETAIL VIEW
+═══════════════════════════════════════════ */
+#detail,#interest-detail,#quiz-view{background:var(--white)}
+.det-hdr{display:flex;align-items:center;gap:11px;padding:12px clamp(14px,4vw,28px);border-bottom:1px solid var(--rule);background:var(--white);position:sticky;top:0;z-index:20}
+.det-back{width:32px;height:32px;border-radius:var(--r);background:var(--surface);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;transition:background .15s}
+.det-back:hover{background:var(--sur2)}
+.det-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px}
+.det-body{padding:20px clamp(14px,4vw,28px) 100px;max-width:660px;margin:0 auto;width:100%}
+.det-title{font-family:'Instrument Serif',serif;font-size:clamp(21px,4.5vw,28px);line-height:1.18;letter-spacing:-.02em;margin-bottom:11px;color:var(--ink)}
+.det-byline{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.det-by-item{font-size:12px;color:var(--ink4);display:flex;align-items:center;gap:4px}
+.det-intro{font-family:'Satoshi',sans-serif;font-size:15px;line-height:1.85;color:var(--ink2);margin-bottom:16px;border-left:2px solid var(--a);padding-left:14px}
+.det-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:9px}
+.det-bullets{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:15px}
+.det-bullets li{display:flex;gap:11px;font-size:14px;line-height:1.75;color:var(--ink2);padding-bottom:9px;border-bottom:1px solid var(--rule)}
+.det-bullets li:last-child{border-bottom:none}
+.det-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:9px}
+.det-closing{font-size:14px;line-height:1.8;color:var(--ink3);background:var(--surface);border-radius:var(--r);padding:12px;margin-bottom:14px;border-left:2px solid var(--rule2)}
+.det-div{height:1px;background:var(--rule);margin:14px 0}
+.det-terms{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.det-term{background:var(--surface);border:1px solid var(--rule2);border-radius:4px;padding:4px 10px;font-size:12px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .15s}
+.det-term:hover{border-color:var(--a-rule);color:var(--a);background:var(--a-pale)}
+.det-srcs{display:flex;flex-direction:column;gap:5px}
+.det-src{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:9px 12px;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink2)}
+.det-src-fav{width:20px;height:20px;border-radius:5px;background:var(--rule);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+/* Detail actions — listen + quiz only (share/save removed) */
+.det-fixed{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--rule);padding:10px clamp(12px,3vw,22px);z-index:100;display:flex;gap:7px;box-shadow:0 -4px 16px rgba(0,0,0,.04)}
+.det-act{flex:1;background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);transition:all .2s;font-family:'Satoshi',sans-serif}
+.det-act .ai{font-size:17px;line-height:1}
+.det-act:hover{border-color:var(--a-rule);color:var(--a);background:var(--a-pale);transform:translateY(-1px)}
+.det-act.prim{background:var(--a);color:var(--white);border-color:var(--a)}
+.det-act.prim:hover{background:var(--a-dark)}
+
+/* Interest detail */
+.int-det-hero{background:var(--white);padding:16px clamp(14px,4vw,28px);border-bottom:1px solid var(--rule)}
+.int-det-name{font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:-.02em;margin-bottom:4px;color:var(--ink)}
+.int-det-meta{display:flex;gap:11px;flex-wrap:wrap;font-size:12px;color:var(--ink4)}
+.int-det-feed{padding:11px clamp(12px,3vw,22px)}
+.int-date-hdr{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin:11px 0 7px;display:flex;align-items:center;gap:8px}
+.int-date-hdr::after{content:'';flex:1;height:1px;background:var(--rule)}
+
+/* ═══════════════════════════════════════════
+   QUIZ VIEW
+═══════════════════════════════════════════ */
+.qv-body{padding:20px clamp(14px,4vw,28px) 100px;max-width:500px;margin:0 auto;width:100%}
+.qv-prog{display:flex;gap:5px;margin-bottom:18px}
+.qv-seg{flex:1;height:3px;border-radius:2px;background:var(--rule);transition:background .35s}
+.qv-seg.done{background:var(--a)}.qv-seg.active{background:var(--a-mid)}
+.qv-n{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:7px}
+.qv-q{font-family:'Instrument Serif',serif;font-size:clamp(18px,3.8vw,22px);line-height:1.38;letter-spacing:-.02em;margin-bottom:20px;color:var(--ink)}
+.qv-opts{display:flex;flex-direction:column;gap:7px}
+.qv-opt{background:var(--surface);border:1.5px solid var(--rule);border-radius:var(--r);padding:12px 14px;font-size:14px;font-weight:500;color:var(--ink2);text-align:left;display:flex;align-items:center;gap:11px;transition:all .2s var(--ease);font-family:'Satoshi',sans-serif}
+.qv-opt::before{content:attr(data-l);font-size:11px;font-weight:700;width:24px;height:24px;border-radius:50%;background:var(--white);border:1.5px solid var(--rule2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink3);transition:all .2s}
+.qv-opt:hover:not(:disabled){border-color:var(--a-rule);background:var(--a-pale);transform:translateX(3px)}
+.qv-opt:hover:not(:disabled)::before{border-color:var(--a);color:var(--a)}
+.qv-opt.correct{background:var(--ok-pale);border-color:var(--ok);color:var(--ok)}
+.qv-opt.correct::before{background:var(--ok);border-color:var(--ok);color:var(--white)}
+.qv-opt.wrong{background:var(--err-pale);border-color:var(--err);color:var(--err)}
+.qv-opt.wrong::before{background:var(--err);border-color:var(--err);color:var(--white)}
+.qv-result{text-align:center;padding:36px 20px}
+.qv-score{font-family:'Instrument Serif',serif;font-size:64px;font-style:italic;color:var(--a);line-height:1;margin-bottom:6px;animation:scaleIn .5s var(--ease-s)}
+.qv-score-lbl{font-size:15px;color:var(--ink3);margin-bottom:24px}
+.qv-result-btns{display:flex;flex-direction:column;gap:8px}
+
+/* ═══════════════════════════════════════════
+   PROFILE SCREEN
+═══════════════════════════════════════════ */
+#profile{background:var(--paper);min-height:100vh}
+.pf-hdr{display:flex;align-items:center;gap:11px;padding:12px clamp(14px,4vw,28px);border-bottom:1px solid var(--rule);background:var(--white);position:sticky;top:0;z-index:20}
+.pf-body{padding:24px clamp(14px,4vw,28px);max-width:480px;width:100%}
+.pf-avatar{width:72px;height:72px;border-radius:50%;background:var(--a);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin-bottom:12px}
+.pf-name{font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:2px}
+.pf-email{font-size:13px;color:var(--ink3);margin-bottom:4px}
+.pf-occ{font-size:12px;color:var(--ink4);background:var(--surface);display:inline-block;padding:3px 10px;border-radius:4px;margin-bottom:24px}
+.pf-sec-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:10px;margin-top:24px}
+.pf-row{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:14px 15px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.pf-row:hover{border-color:var(--rule2);box-shadow:var(--sh1)}
+.pf-row-icon{font-size:18px;flex-shrink:0;width:32px;text-align:center}
+.pf-row-label{font-size:14px;font-weight:500;color:var(--ink)}
+.pf-row-sub{font-size:12px;color:var(--ink3)}
+.pf-row-arr{margin-left:auto;font-size:16px;color:var(--ink4)}
+.pf-row.danger .pf-row-label{color:var(--err)}
+.pf-disclaimer{background:var(--warn-pale);border:1px solid rgba(180,83,9,.18);border-radius:var(--r);padding:16px;margin-top:8px}
+.pf-disc-title{font-size:13px;font-weight:700;color:var(--warn);margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.pf-disc-body{font-size:12.5px;color:var(--ink3);line-height:1.75}
+
+/* Audio — hidden by default, only shows on explicit play */
+.audio{position:fixed;bottom:57px;left:0;right:0;background:var(--ink);color:var(--white);padding:11px clamp(12px,3vw,22px);display:flex;align-items:center;gap:11px;transform:translateY(110%);transition:transform .35s var(--ease);z-index:90;border-top:2px solid var(--a)}
+.audio.show{transform:translateY(0)}
+.audio-play{width:34px;height:34px;border-radius:50%;background:var(--a);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:transform .15s}
+.audio-play:hover{transform:scale(1.1)}
+.audio-info{flex:1;min-width:0}
+.audio-title{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.audio-track{height:2px;background:#2a2f38;border-radius:2px;cursor:pointer}
+.audio-fill{height:100%;border-radius:2px;background:var(--a);width:0%;transition:width .3s linear}
+.audio-times{display:flex;justify-content:space-between;margin-top:3px;font-size:10px;color:#4a5060}
+.audio-lmt{font-size:9px;font-weight:700;letter-spacing:.06em;color:#3a4050;text-transform:uppercase;flex-shrink:0}
+.audio-close{color:#3a4050;font-size:20px;flex-shrink:0;transition:color .15s}
+.audio-close:hover{color:var(--white)}
+</style>
+</head>
+<body>
+
+<!-- ══ LANDING ══════════════════════════════ -->
+<div id="landing" class="screen active">
+  <nav class="nav">
+    <!-- Logo: Satoshi 900, single wordmark, green dot separator -->
+    <div class="logo">
+      <div class="logo-word"><span class="lo-pz">pz</span><span class="lo-dot">•</span><span class="lo-news">news</span></div>
+    </div>
+    <div class="nav-r">
+      <button class="nav-link" onclick="showScreen('signin')">Sign in</button>
+      <button class="nav-cta btn" onclick="showScreen('signin')">Get started</button>
+    </div>
+  </nav>
+
+  <!-- HERO — centred, no side element -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag rise"><span class="hero-tag-line"></span>Your daily personalised briefing</div>
+      <h1 class="hero-h1 rise r1">Stay ahead on what <em>matters</em> to you.</h1>
+      <p class="hero-sub rise r2">Pick any topic, <strong>YouTube channel</strong>, or <strong>playlist</strong>. Every morning, pz·news delivers one clean, deduplicated briefing — <strong>read it</strong> or <strong>listen</strong> on your commute.</p>
+      <div class="hero-actions rise r3">
+        <button class="btn btn-primary btn-wide" onclick="showScreen('signin')">Get started in 60 seconds →</button>
+        <button class="btn btn-ghost btn-wide" onclick="document.getElementById('how-sec').scrollIntoView({behavior:'smooth'})">See how it works</button>
+      </div>
+      <div class="hero-nudges rise r4">
+        <div class="hero-nudge"><span class="nudge-check">✓</span> Up and running in under 60 seconds</div>
+        <div class="hero-nudge"><span class="nudge-check">✓</span> Read it or listen — your choice every day</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker-bar"><div class="ticker-inner" id="tickerTrack"></div></div>
+
+  <!-- Audience -->
+  <div class="aud-strip">
+    <div class="aud-item"><span class="aud-icon">🔬</span><span class="aud-lbl">Researchers</span><span class="aud-sub">Papers, discoveries</span></div>
+    <div class="aud-item"><span class="aud-icon">💻</span><span class="aud-lbl">Engineers</span><span class="aud-sub">Tech, frameworks</span></div>
+    <div class="aud-item"><span class="aud-icon">🎓</span><span class="aud-lbl">Students</span><span class="aud-sub">Courses, lectures</span></div>
+    <div class="aud-item"><span class="aud-icon">📊</span><span class="aud-lbl">Analysts</span><span class="aud-sub">Markets, macro</span></div>
+    <div class="aud-item"><span class="aud-icon">🚀</span><span class="aud-lbl">Founders</span><span class="aud-sub">Startups, trends</span></div>
+    <div class="aud-item"><span class="aud-icon">🔭</span><span class="aud-lbl">Enthusiasts</span><span class="aud-sub">Science, space</span></div>
+    <div class="aud-item"><span class="aud-icon">✍️</span><span class="aud-lbl">Writers</span><span class="aud-sub">Ideas, culture</span></div>
+  </div>
+
+  <!-- Sources -->
+  <div class="s s-bg">
+    <div class="s-eye">What you can follow</div>
+    <h2 class="s-title">Everything you care about,<br>in one place.</h2>
+    <p class="s-sub">From the latest research papers to your favourite YouTube creator's newest video — pz·news pulls it together, removes the duplicates, and writes a briefing just for you.</p>
+    <div class="src-grid">
+      <div class="src-cell rise"><div class="src-n">01</div><div class="src-t">Topics & Keywords</div><div class="src-d">Any subject you follow. We watch hundreds of publications, blogs, and sources worldwide.</div><div class="src-chips"><span class="src-chip">AI Agents</span><span class="src-chip">Space Exploration</span><span class="src-chip">Quantum Computing</span><span class="src-chip">+ your own</span></div></div>
+      <div class="src-cell rise r1"><div class="src-n">02</div><div class="src-t">YouTube Channels</div><div class="src-d">Never miss a video. Get a written and audio summary of every new upload from creators you follow.</div><div class="src-chips"><span class="src-chip">Lex Fridman</span><span class="src-chip">Kurzgesagt</span><span class="src-chip">Veritasium</span><span class="src-chip">+ your own</span></div></div>
+      <div class="src-cell rise r2"><div class="src-n">03</div><div class="src-t">YouTube Playlists</div><div class="src-d">Track a course or lecture series. Get notified and summarised whenever new content is added.</div><div class="src-chips"><span class="src-chip">CS50 Harvard</span><span class="src-chip">MIT OpenCourseWare</span><span class="src-chip">Stanford ML</span><span class="src-chip">+ your own</span></div></div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="s s-white" id="how-sec">
+    <div class="s-eye">How it works</div>
+    <h2 class="s-title">From the internet's noise<br>to your daily clarity.</h2>
+    <div class="timeline">
+      <div class="tl-step rise"><div class="tl-num">1</div><div class="tl-t">Pick what you care about</div><div class="tl-d">Add topic keywords, paste YouTube channel or playlist URLs. Takes under 60 seconds. Change anytime.</div></div>
+      <div class="tl-step rise r1"><div class="tl-num">2</div><div class="tl-t">We monitor everything for you</div><div class="tl-d">pz·news watches hundreds of sources and your YouTube feeds continuously — you never have to check again.</div></div>
+      <div class="tl-step rise r2"><div class="tl-num">3</div><div class="tl-t">Duplicates and noise removed</div><div class="tl-d">When 12 outlets cover the same story, you read it once — clean, well-written, every source cited.</div></div>
+      <div class="tl-step rise r3"><div class="tl-num">4</div><div class="tl-t">Read it or listen to it</div><div class="tl-d">Your briefing is ready every morning. Read in minutes or listen as audio on your commute — your choice.</div></div>
+    </div>
+  </div>
+
+  <!-- Explore -->
+  <div class="s s-bg">
+    <div class="s-eye">Trending on pz·news</div>
+    <h2 class="s-title">See what people are following</h2>
+    <div class="ex-grid">
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🤖</span><div class="ex-name">AI Agents</div><div class="ex-type">Topic</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🔭</span><div class="ex-name">Space Commerce</div><div class="ex-type">Topic</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🧬</span><div class="ex-name">Longevity Research</div><div class="ex-type">Topic</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🎙️</span><div class="ex-name">Lex Fridman</div><div class="ex-type">YouTube Channel</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🦆</span><div class="ex-name">Kurzgesagt</div><div class="ex-type">YouTube Channel</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🎓</span><div class="ex-name">CS50 Harvard</div><div class="ex-type">Playlist</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">⚛️</span><div class="ex-name">Quantum Computing</div><div class="ex-type">Topic</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">🌍</span><div class="ex-name">Climate Tech</div><div class="ex-type">Topic</div><span class="ex-arr">Follow →</span></div>
+      <div class="ex-cell" onclick="showScreen('signin')"><span class="ex-icon">💹</span><div class="ex-name">Indian Economy</div><div class="ex-type">Topic</div><span class="ex-arr">Follow →</span></div>
+    </div>
+  </div>
+
+  <!-- Testimonial — "10 minutes" bolded, stat fixed to 10 min -->
+  <div class="s s-dark">
+    <div class="proof-q rise">"I used to spend <strong>45 minutes every morning</strong> reading the same story across five different tabs. Now I get one clean briefing and I'm done in under <strong>10 minutes</strong>."</div>
+    <div class="proof-by rise r1">— <strong>Vivek Ravindran</strong>, Product Manager, Bengaluru</div>
+    <div class="proof-stats rise r2">
+      <div class="proof-stat"><div class="proof-num">10 min</div><div class="proof-lbl">Avg read</div></div>
+      <div class="proof-stat"><div class="proof-num">0</div><div class="proof-lbl">Duplicates</div></div>
+      <div class="proof-stat"><div class="proof-num">100%</div><div class="proof-lbl">Your interests</div></div>
+    </div>
+  </div>
+
+  <!-- Final CTA — no credit card / cancel anytime -->
+  <div class="fcta">
+    <h2 class="fcta-title rise">Your briefing<br>is waiting.</h2>
+    <p class="fcta-sub rise r1">Tell us what you care about. Your first digest is ready in under a minute.</p>
+    <button class="btn btn-primary rise r2" style="margin:0 auto;padding:14px 32px;font-size:15px" onclick="showScreen('signin')">Get started in 60 seconds →</button>
+    <div class="fcta-trust rise r3">
+      <div class="fcta-ti"><span class="tck">✓</span> Up and running in 60 seconds</div>
+      <span style="color:var(--rule2)">·</span>
+      <div class="fcta-ti"><span class="tck">✓</span> Read or listen daily</div>
+    </div>
+  </div>
+
+  <div class="site-footer"><span>© 2026 pz·news</span><span>Built by Parvez for curious minds</span></div>
+</div>
+
+<!-- ══ SIGN IN ════════════════════════════════ -->
+<div id="signin" class="screen">
+  <div class="si-wrap">
+    <div class="si-bar">
+      <button onclick="showScreen('landing')" style="font-size:16px;color:var(--ink3)">←</button>
+      <div class="logo">
+        <div class="logo-word" style="font-size:17px"><span class="lo-pz">pz</span><span class="lo-dot">•</span><span class="lo-news">news</span></div>
+      </div>
+    </div>
+    <div class="si-body">
+      <div class="si-card">
+        <div class="si-avatar">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" stroke="#1a5e3c" stroke-width="1.5"/><path d="M4 24c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#1a5e3c" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="si-title">Welcome to pz·news</div>
+        <div class="si-sub">Sign in to build your personalised daily briefing across topics, YouTube channels, and playlists.</div>
+        <button class="btn-google btn" onclick="goOnboarding(true)"><div class="g-icon"></div>Continue with Google</button>
+        <div class="si-or">or</div>
+        <button class="btn btn-flat" onclick="showGuestModal()">Continue as Guest</button>
+        <div class="si-terms">By continuing you agree to our Terms of Service and Privacy Policy.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Guest modal -->
+<div class="modal-overlay" id="guestModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Continue as Guest?</div>
+    <div class="modal-sub">Guest mode gives you a taste of pz·news. Here's what's included:</div>
+    <div class="modal-limits">
+      <div class="modal-lim-item"><span class="lim-icon">📰</span> Up to 2 topics (no channels or playlists)</div>
+      <div class="modal-lim-item"><span class="lim-icon">🔄</span> 3 total refreshes · session lasts 24 hours</div>
+      <div class="modal-lim-item"><span class="lim-icon">🎧</span> No audio · No quiz · No history</div>
+    </div>
+    <div class="modal-upg"><strong>Signing up with Google takes under a minute</strong> and unlocks topics, channels, playlists, audio briefings, quizzes, and persistent history.</div>
+    <div class="modal-btns">
+      <button class="btn btn-primary btn-wide" onclick="closeGuestModal();goOnboarding(true)">Sign up with Google instead →</button>
+      <button class="btn btn-flat" onclick="closeGuestModal();goOnboarding(false)">Continue as Guest anyway</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ONBOARDING ═════════════════════════════ -->
+<div id="onboarding" class="screen">
+  <div class="ob-prog"><div class="ob-bar" id="obFill"></div></div>
+  <div class="ob-topbar">
+    <button class="ob-back" onclick="obBack()">← Back</button>
+    <div class="ob-step-lbl" id="obLbl">Step 1 of 3</div>
+    <div style="width:48px"></div>
+  </div>
+
+  <!-- STEP 0: Occupation -->
+  <div id="ob-s0">
+    <div class="ob-body">
+      <h2 class="ob-title">What best describes you?</h2>
+      <p class="ob-sub">This helps us personalise your topic suggestions. You can change this anytime.</p>
+      <div class="occ-grid" id="occGrid">
+        <div class="occ-card" onclick="pickOcc(this,'student')"><span class="occ-icon">🎓</span><span class="occ-label">Student</span></div>
+        <div class="occ-card" onclick="pickOcc(this,'founder')"><span class="occ-icon">🚀</span><span class="occ-label">Founder / Business owner</span></div>
+        <div class="occ-card" onclick="pickOcc(this,'employee')"><span class="occ-icon">💼</span><span class="occ-label">Full-time employee</span></div>
+        <div class="occ-card" onclick="pickOcc(this,'intern')"><span class="occ-icon">🌱</span><span class="occ-label">Intern</span></div>
+        <div class="occ-card" onclick="pickOcc(this,'jobseeker')"><span class="occ-icon">🔍</span><span class="occ-label">Looking for jobs</span></div>
+        <div class="occ-card" onclick="pickOcc(this,'other')"><span class="occ-icon">💡</span><span class="occ-label">Other</span></div>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn btn-primary btn-wide" id="ob0Btn" onclick="goStep1()" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 1: Interests -->
+  <div id="ob-s1" style="display:none">
+    <div class="ob-body">
+      <h2 class="ob-title">Add your interests</h2>
+      <p class="ob-sub">Type a topic keyword, or paste a YouTube channel or playlist URL. We'll start building your digest immediately.</p>
+      <div class="ob-sec">
+        <div class="ob-sec-lbl">📰 Topics <span class="ob-sec-note">— enter a keyword</span></div>
+        <div class="ob-row">
+          <input class="ob-input" id="tInp" placeholder="e.g. Quantum Computing, AI Agents…" onkeydown="if(event.key==='Enter')addI('topic')">
+          <button class="ob-add" onclick="addI('topic')">Add</button>
+        </div>
+        <div class="ob-tags" id="tTags"></div>
+      </div>
+      <div class="ob-sec" id="chSec">
+        <div class="ob-sec-lbl">▶️ YouTube Channels <span class="ob-sec-note">— paste channel URL</span></div>
+        <div class="ob-row">
+          <input class="ob-input" id="chInp" placeholder="e.g. https://youtube.com/@lexfridman" onkeydown="if(event.key==='Enter')addI('channel')">
+          <button class="ob-add" onclick="addI('channel')">Add</button>
+        </div>
+        <div class="ob-tags" id="chTags"></div>
+      </div>
+      <div class="ob-sec" id="plSec">
+        <div class="ob-sec-lbl">📋 Playlists <span class="ob-sec-note">— paste playlist URL</span></div>
+        <div class="ob-row">
+          <input class="ob-input" id="plInp" placeholder="e.g. https://youtube.com/playlist?list=PLxxx" onkeydown="if(event.key==='Enter')addI('playlist')">
+          <button class="ob-add" onclick="addI('playlist')">Add</button>
+        </div>
+        <div class="ob-tags" id="plTags"></div>
+      </div>
+      <div class="ob-sug-wrap">
+        <div class="ob-sug-head">
+          <div class="ob-sug-lbl">Suggestions</div>
+          <div class="ob-sug-tabs">
+            <button class="ob-sug-tab on" onclick="setSugTab(this,'topics')">Topics</button>
+            <button class="ob-sug-tab" onclick="setSugTab(this,'channels')">Channels</button>
+            <button class="ob-sug-tab" onclick="setSugTab(this,'playlists')">Playlists</button>
+          </div>
+        </div>
+        <div class="ob-sug-chips" id="sugChips"></div>
+      </div>
+    </div>
+    <div class="ob-sel-bar" id="obSelBar">
+      <div class="ob-sel-top"><span class="ob-sel-ct" id="obSelCt">0 selected</span><button class="ob-clear" onclick="clearOb()">Clear all</button></div>
+      <div class="ob-sel-tags" id="obSelTags"></div>
+    </div>
+    <div class="ob-upgrade" id="obUpgrade">
+      <strong>You've added more than 2 topics.</strong> Guest mode only allows 2. <strong>Sign up with Google</strong> to unlock 20 topics, channels, and playlists.
+      <button onclick="goOnboarding(true)" style="display:block;margin-top:8px;color:var(--a);font-weight:700;font-size:12px;background:none;border:none;cursor:pointer;">Sign up with Google →</button>
+    </div>
+    <div class="ob-footer">
+      <button class="btn btn-primary btn-wide" id="ob1Btn" onclick="goVerify()" disabled>Review my selections →</button>
+    </div>
+  </div>
+
+  <!-- VERIFY -->
+  <div id="ob-v" style="display:none">
+    <div class="ob-v-body">
+      <div class="ob-v-title">Review your selections</div>
+      <div class="ob-v-sub">We've checked your entries. Topics marked as excluded contain restricted keywords.</div>
+      <div id="vBody"></div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn btn-primary btn-wide" onclick="confirmV()">Looks good, continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Schedule -->
+  <div id="ob-s2" style="display:none">
+    <div class="ob-s2-body">
+      <h2 class="ob-title">When do you want your briefing?</h2>
+      <p class="ob-sub">Choose a schedule. You can change this anytime from your profile.</p>
+      <div class="ob-sched-opts">
+        <!-- Once a day — user picks time -->
+        <div class="ob-sched-opt on" id="sched-once" onclick="selSched(this,'once')">
+          <div class="ob-sched-main"><div><div class="ob-sched-n">Once a day</div><div class="ob-sched-d">One fresh briefing at your chosen time</div></div><div class="ob-sched-icon">🌅</div></div>
+          <div class="ob-time-pick show" id="tp-once">
+            <span class="ob-time-lbl">Delivery time</span>
+            <input type="time" class="ob-time-inp" id="time1" value="07:00">
+          </div>
+        </div>
+        <!-- Twice a day — user picks first time, second is auto +12h -->
+        <div class="ob-sched-opt" id="sched-twice" onclick="selSched(this,'twice')">
+          <div class="ob-sched-main"><div><div class="ob-sched-n">Twice a day</div><div class="ob-sched-d">Morning + evening, 12 hours apart</div></div><div class="ob-sched-icon">🔄</div></div>
+          <div class="ob-time-pick" id="tp-twice">
+            <span class="ob-time-lbl">First delivery time</span>
+            <input type="time" class="ob-time-inp" id="time2" value="07:00" oninput="calcSecondTime()">
+            <div class="ob-time-auto" id="secondTimeLbl">Second delivery: 7:00 PM (auto, 12 hrs later)</div>
+          </div>
+        </div>
+        <!-- On demand -->
+        <div class="ob-sched-opt" id="sched-manual" onclick="selSched(this,'manual')">
+          <div class="ob-sched-main"><div><div class="ob-sched-n">On demand</div><div class="ob-sched-d">I'll refresh when I want (up to 6×/day)</div></div><div class="ob-sched-icon">👆</div></div>
+        </div>
+      </div>
+      <div class="ob-sum" id="obSum"></div>
+    </div>
+    <div class="ob-footer">
+      <button class="btn btn-primary btn-wide" onclick="showScreen('dashboard');initDb()">Build my digest →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══════════════════════════════ -->
+<div id="dashboard" class="screen">
+  <div class="db-hdr">
+    <div class="db-top">
+      <div class="logo">
+        <div class="logo-word" style="font-size:17px"><span class="lo-pz">pz</span><span class="lo-dot">•</span><span class="lo-news">news</span></div>
+      </div>
+      <div class="db-r">
+        <div class="db-guest" id="gBadge" style="display:none">Guest</div>
+        <div class="db-av" id="dbAv" onclick="showScreen('profile')">P</div>
+      </div>
+    </div>
+    <div class="db-tabs">
+      <button class="db-tab on" id="dbt-digest" onclick="swTab('digest',this)">Digest <span class="db-tab-ct">3</span></button>
+      <button class="db-tab" id="dbt-interests" onclick="swTab('interests',this)">Interests <span class="db-tab-ct">5</span></button>
+      <button class="db-tab" id="dbt-glossary" onclick="swTab('glossary',this)">Glossary <span class="db-tab-ct">5</span></button>
+      <button class="db-tab" id="dbt-quiz" onclick="swTab('quiz',this)">Quiz</button>
+    </div>
+  </div>
+  <div class="db-meta" id="dbMeta">
+    <div class="db-meta-txt">Updated <strong id="dbUpd">today 7:00 AM</strong> · Next at <strong id="dbNext">7:00 PM</strong> · <strong>4</strong> refreshes left</div>
+    <button class="btn-refresh" id="dbRefBtn" onclick="doRefresh()">↻ Refresh</button>
+  </div>
+  <div class="db-sub-tabs" id="dbSubs">
+    <button class="db-subtab on" onclick="setSubTab(this,'today')">Today's Digest</button>
+    <button class="db-subtab" onclick="setSubTab(this,'topics')">Topics</button>
+    <button class="db-subtab" onclick="setSubTab(this,'channels')">Channels</button>
+    <button class="db-subtab" onclick="setSubTab(this,'playlists')">Playlists</button>
+  </div>
+  <div class="db-feed" id="dbFeed"></div>
+  <div class="db-bnav">
+    <button class="db-nb on" id="dbn-digest" onclick="swTab('digest',document.getElementById('dbt-digest'));swNav('digest')"><span class="db-nb-icon">📰</span><span class="db-nb-lbl">Digest</span></button>
+    <button class="db-nb" id="dbn-interests" onclick="swTab('interests',document.getElementById('dbt-interests'));swNav('interests')"><span class="db-nb-icon">⭐</span><span class="db-nb-lbl">Interests</span></button>
+    <button class="db-nb" id="dbn-glossary" onclick="swTab('glossary',document.getElementById('dbt-glossary'));swNav('glossary')"><span class="db-nb-icon">📖</span><span class="db-nb-lbl">Glossary</span></button>
+    <button class="db-nb" id="dbn-qp" onclick="swTab('quiz',document.getElementById('dbt-quiz'));swNav('qp')"><span class="db-nb-icon">🧠</span><span class="db-nb-lbl">Quiz</span></button>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div id="detail" class="screen">
+  <div class="det-hdr"><button class="det-back" onclick="showScreen('dashboard')">←</button><div class="det-badge" id="detBadge"></div></div>
+  <div class="det-body" id="detBody"></div>
+  <!-- Listen + Quiz only — share/save removed -->
+  <div class="det-fixed">
+    <button class="det-act prim" onclick="playAudio()"><span class="ai">🎧</span>Listen</button>
+    <button class="det-act" onclick="openQuiz()"><span class="ai">🧠</span>Quiz</button>
+  </div>
+</div>
+
+<!-- INTEREST DETAIL -->
+<div id="interest-detail" class="screen">
+  <div class="det-hdr"><button class="det-back" onclick="showScreen('dashboard')">←</button><div class="det-badge" id="iDetBadge"></div></div>
+  <div class="int-det-hero"><div class="int-det-name" id="iDetName"></div><div class="int-det-meta" id="iDetMeta"></div></div>
+  <div class="int-det-feed" id="iDetFeed"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-view" class="screen">
+  <div class="det-hdr"><button class="det-back" onclick="showScreen('dashboard')">←</button><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)" id="qvTopic">Quiz</div></div>
+  <div class="qv-body" id="qvBody"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="screen">
+  <div class="pf-hdr">
+    <button class="det-back" onclick="showScreen('dashboard')">←</button>
+    <div style="font-size:14px;font-weight:700;color:var(--ink)">Profile</div>
+  </div>
+  <div class="pf-body" id="pfBody">
+    <div class="pf-avatar" id="pfAvatar">P</div>
+    <div class="pf-name" id="pfName">Parvez M.</div>
+    <div class="pf-email" id="pfEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6313021115061923061b020e130f064d000c0e">[email&#160;protected]</a></div>
+    <div class="pf-occ" id="pfOcc">Full-time employee</div>
+
+    <div class="pf-sec-title">Account</div>
+    <div class="pf-row" onclick="showToast('Switch account coming soon')"><span class="pf-row-icon">🔄</span><div><div class="pf-row-label">Switch account</div><div class="pf-row-sub">Sign in with a different Google account</div></div><span class="pf-row-arr">›</span></div>
+    <div class="pf-row danger" onclick="showToast('Delete account — coming soon in settings')"><span class="pf-row-icon">🗑️</span><div><div class="pf-row-label">Delete account</div><div class="pf-row-sub">Remove all your data permanently</div></div><span class="pf-row-arr">›</span></div>
+
+    <div class="pf-sec-title">Preferences</div>
+    <div class="pf-row" onclick="showToast('Schedule settings coming soon')"><span class="pf-row-icon">🕐</span><div><div class="pf-row-label">Briefing schedule</div><div class="pf-row-sub" id="pfSched">Once a day at 7:00 AM</div></div><span class="pf-row-arr">›</span></div>
+    <div class="pf-row" onclick="showToast('Occupation updated')"><span class="pf-row-icon">💼</span><div><div class="pf-row-label">What I do</div><div class="pf-row-sub" id="pfOccSub">Update your occupation</div></div><span class="pf-row-arr">›</span></div>
+
+    <div class="pf-sec-title">About pz·news</div>
+    <div class="pf-disclaimer">
+      <div class="pf-disc-title">⚠ AI-generated content notice</div>
+      <div class="pf-disc-body">
+        All briefings on pz·news are generated by AI and summarised from third-party sources. Content may contain errors, omissions, or outdated information. <strong>Do not use pz·news as a source of record or cite it in your work.</strong><br><br>
+        pz·news is designed to give you a quick orientation on topics you follow. If something interests you, explore the original sources linked in each briefing for accurate and detailed information.
+      </div>
+    </div>
+    <div class="pf-row" style="margin-top:8px" onclick="showToast('Privacy policy coming soon')"><span class="pf-row-icon">🔒</span><div><div class="pf-row-label">Privacy policy</div><div class="pf-row-sub">How we handle your data</div></div><span class="pf-row-arr">›</span></div>
+    <div class="pf-row" onclick="showScreen('signin')"><span class="pf-row-icon">👋</span><div><div class="pf-row-label">Sign out</div></div><span class="pf-row-arr">›</span></div>
+
+    <div style="height:32px"></div>
+  </div>
+</div>
+
+<!-- Audio — only shows on explicit play, never on load -->
+<div class="audio" id="audioBar">
+  <button class="audio-play" id="audioPlay" onclick="togAudio()">▶</button>
+  <div class="audio-info">
+    <div class="audio-title" id="audioTitle">Loading…</div>
+    <div class="audio-track" onclick="seekAudio(event)"><div class="audio-fill" id="audioFill"></div></div>
+    <div class="audio-times"><span id="audioEl">0:00</span><span id="audioTot">3:24</span></div>
+  </div>
+  <div class="audio-lmt" id="audioLmt">20 left</div>
+  <button class="audio-close" onclick="closeAudio()">×</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── SUGGESTIONS (hardcoded — 9 each, curated for 2025/26 trends) ── */
+const SUGS={
+  topics:[
+    {l:'AI Agents',i:'🤖'},{l:'Space Commercialisation',i:'🚀'},
+    {l:'Longevity Research',i:'🧬'},{l:'Climate Tech',i:'🌍'},
+    {l:'Indian Economy',i:'💹'},{l:'Quantum Computing',i:'⚛️'},
+    {l:'Neurotech',i:'🧠'},{l:'Open Source AI',i:'💻'},
+    {l:'Geopolitics',i:'🌐'},
+  ],
+  channels:[
+    {l:'Lex Fridman',i:'🎙️',u:'@lexfridman'},
+    {l:'Kurzgesagt',i:'🦆',u:'@kurzgesagt'},
+    {l:'Veritasium',i:'🔬',u:'@veritasium'},
+    {l:'3Blue1Brown',i:'📐',u:'@3blue1brown'},
+    {l:'Y Combinator',i:'🟠',u:'@ycombinator'},
+    {l:'TED',i:'🎤',u:'@TED'},
+    {l:'Fireship',i:'🔥',u:'@Fireship'},
+    {l:'Two Minute Papers',i:'📄',u:'@TwoMinutePapers'},
+    {l:'Real Engineering',i:'⚙️',u:'@RealEngineering'},
+  ],
+  playlists:[
+    {l:'CS50 Harvard',i:'🎓',u:'PLhQjrBAgIEhB3rVCMB1j0KexKMLZI14Cw'},
+    {l:'MIT OpenCourseWare',i:'🏫',u:'PLUl4u3cNGP61MdtwGTqZA0MreSaDybji8'},
+    {l:'Khan Academy Math',i:'🔢',u:'PLSQl0a2vh4HCLqA-rhMi_Z_WnBkD3wUka'},
+    {l:'Stanford ML',i:'🤖',u:'PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU'},
+    {l:'TED-Ed Science',i:'🧪',u:'PLbpi6ZahtOH6Ar_3GPy3workkCE3gBvce'},
+    {l:'freeCodeCamp',i:'💡',u:'PLWKjhJtqVAbnRT_hue-3zyiuIYj0OlpyG'},
+    {l:'Andrej Karpathy ML',i:'🔬',u:'PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ'},
+    {l:'Yale Open Courses',i:'🏛️',u:'PLh9mgdi4rNewfxO7LhBoz_1Mx1MaO6sw_'},
+    {l:'NPTEL Engineering',i:'⚙️',u:'PLbMVogVj5nJTmKzaSlCpGgi7qxgcRRs8h'},
+  ]
+};
+
+/* Simulated blocked topics */
+const BLOCKED_TOPICS=['violence','drugs','gambling','nsfw','porn','hate','weapons'];
+
+const FEED=[
+  {id:1,topic:'AI Agents',tc:'#4f46e5',tb:'#eeecff',type:'topic',iid:'i1',dA:0,time:'1h ago',
+   title:'OpenAI launches Operator — AI agents that can book, buy and manage tasks autonomously',
+   intro:'OpenAI\'s Operator marks a significant shift from AI assistants to AI agents capable of taking actions on the web on a user\'s behalf, completing multi-step tasks without hand-holding.',
+   bullets:['Operator can browse the web, fill forms, place orders, and manage reservations autonomously','Built on a new model trained specifically for computer-use tasks','Early access available to Plus subscribers in the US; rollout expanding','Raises new questions about trust, oversight, and what "human in the loop" means at scale'],
+   closing:'The move signals that 2025\'s defining AI battleground is not chatbots but autonomous agents — a race now involving Google, Anthropic, and dozens of startups.',
+   sources:['OpenAI','The Verge','Wired','MIT Technology Review','Ars Technica'],terms:['AI Agents','Operator','Computer Use','Autonomous AI']},
+  {id:2,topic:'Indian Economy',tc:'#16a34a',tb:'#f0fdf4',type:'topic',iid:'i2',dA:0,time:'3h ago',
+   title:'India\'s GDP growth forecast revised up to 7.2% — manufacturing and services both strong',
+   intro:'The IMF and RBI revised India\'s growth forecast upward, pointing to strong domestic consumption, a recovering manufacturing sector, and sustained services exports as primary drivers.',
+   bullets:['IMF raises India\'s 2025 GDP forecast from 6.8% to 7.2%','Manufacturing PMI at 57.4 — highest in 14 months','Services exports crossed $350B annualised run rate for first time','Rupee stabilised; RBI likely to begin rate cuts in Q3 2025'],
+   closing:'India is now the fastest-growing major economy for the third consecutive year, with analysts eyeing a potential $4 trillion GDP milestone by 2026.',
+   sources:['IMF','RBI','Economic Times','Bloomberg','Mint'],terms:['GDP Growth','IMF','Manufacturing PMI','RBI']},
+  {id:3,topic:'Lex Fridman',tc:'#1a5e3c',tb:'#e8f5ee',type:'channel',iid:'i3',dA:0,time:'5h ago',
+   title:'Lex Fridman × Demis Hassabis — 4 hours on AGI, AlphaFold and the future of science',
+   intro:'The DeepMind co-founder joined Lex for one of the year\'s most substantive AI conversations, candid about AGI timelines and why AlphaFold is AI\'s most consequential achievement.',
+   bullets:['Hassabis: AGI is "decades away, not centuries" — refuses a specific year','AlphaFold now cited in over 1 million research papers globally','On safety: "Risks real but manageable if field stays collaborative"','DeepMind working on AlphaFold successor to predict protein interactions'],
+   closing:'An essential listen for anyone following AI seriously.',
+   sources:['YouTube — Lex Fridman','The Guardian','Wired','MIT Technology Review'],terms:['AGI','AlphaFold','DeepMind','Protein Folding']},
+  {id:4,topic:'AI Agents',tc:'#4f46e5',tb:'#eeecff',type:'topic',iid:'i1',dA:1,time:'Yesterday',
+   title:'Anthropic releases Claude 3.7 with "extended thinking" — outperforms on reasoning benchmarks',
+   intro:'Anthropic\'s latest model introduces a new mode that allocates more compute to chain-of-thought reasoning before responding, showing significant gains on hard maths, coding, and logic tasks.',
+   bullets:['Extended thinking mode allocates variable compute budget to multi-step reasoning','Beats GPT-4o and Gemini 1.5 Pro on AIME math benchmark and LiveCodeBench','Available via API and Claude.ai Pro — pricing unchanged','Anthropic claims it\'s the most capable model for agentic tasks at launch'],
+   closing:'Extended thinking marks a shift toward inference-time scaling — the next frontier beyond simply training bigger models.',
+   sources:['Anthropic','The Verge','Ars Technica','HuggingFace'],terms:['Extended Thinking','Inference Scaling','Claude','Benchmarks']},
+];
+
+const INTS=[
+  {id:'i1',name:'AI Agents',type:'topic',icon:'🤖',color:'#4f46e5',bg:'#eeecff',articles:14,last:'Today'},
+  {id:'i2',name:'Indian Economy',type:'topic',icon:'💹',color:'#16a34a',bg:'#f0fdf4',articles:22,last:'Today'},
+  {id:'i3',name:'Lex Fridman',type:'channel',icon:'🎙️',color:'#1a5e3c',bg:'#e8f5ee',articles:8,last:'5h ago'},
+  {id:'i4',name:'Geopolitics',type:'topic',icon:'🌐',color:'#be123c',bg:'#fff1f4',articles:18,last:'Today',archived:true},
+  {id:'i5',name:'Stanford ML',type:'playlist',icon:'🤖',color:'#334155',bg:'#f1f5f9',articles:6,last:'Yesterday'},
+];
+const BRIEFS={
+  i1:'AI agent systems, autonomous task completion, and the companies building them.',
+  i2:'India\'s macro economy — growth data, monetary policy, markets and trade.',
+  i3:'Long-form conversations with scientists, engineers and thinkers — video summaries.',
+  i4:'Global power dynamics, international conflicts, and diplomatic developments.',
+  i5:'Lecture updates and new content from the Stanford ML course series.',
+};
+const SETUP={
+  i1:{label:'7-day overview',text:'AI Agents dominated this week: OpenAI\'s Operator launch, Anthropic\'s Claude 3.7 with extended thinking, and Google\'s Project Jarvis update. The agentic AI race is clearly accelerating with multiple major releases in a 10-day span.'},
+  i2:{label:'7-day overview',text:'India\'s economy saw upward revisions from IMF and strong PMI data. RBI signalled rate cuts ahead. The rupee stabilised and FII inflows returned strongly after a period of outflows.'},
+  i3:{label:'1-month overview',text:'Lex published 4 episodes: Demis Hassabis (DeepMind), Andrej Karpathy (Eureka Labs), Sara Walker (astrobiology), and Joscha Bach. Hassabis and Karpathy both exceeded 2M views within 48 hours.'},
+  i5:{label:'Full playlist summary',text:'Stanford ML 2025 has 12 lectures published. Topics covered: supervised learning, neural networks, attention mechanisms, and transformers. Lecture 13 (RLHF) drops next week.'},
+};
+const GLOS=[
+  {term:'AI Agents',def:'Autonomous AI systems that can plan and execute multi-step tasks — browsing, clicking, form-filling — with minimal human oversight.',src:'AI Agents'},
+  {term:'Extended Thinking',def:'Inference-time technique where models allocate extra compute to chain-of-thought reasoning before generating a final answer.',src:'AI Agents'},
+  {term:'AlphaFold',def:'DeepMind\'s AI system predicting 3D protein structures from amino acid sequences. Cited in 1M+ research papers.',src:'Lex Fridman'},
+  {term:'Manufacturing PMI',def:'Purchasing Managers\' Index — a monthly indicator above 50 signals expansion in manufacturing activity.',src:'Indian Economy'},
+  {term:'Inference Scaling',def:'Improving model performance at test time by allocating more compute, rather than training a larger model.',src:'AI Agents'},
+];
+const QUIZ={
+  i1:[{q:'What is OpenAI Operator designed to do?',opts:['Generate images','Execute web tasks autonomously','Translate documents','Run code in the cloud'],c:1},{q:'What does "extended thinking" improve in Claude 3.7?',opts:['Image generation','Speed','Multi-step reasoning','Context length'],c:2},{q:'Which benchmark did Claude 3.7 beat competitors on?',opts:['MMLU','AIME math','HellaSwag','TruthfulQA'],c:1}],
+  i2:[{q:'What did IMF revise India\'s 2025 GDP forecast to?',opts:['6.2%','6.8%','7.2%','7.8%'],c:2},{q:'What does a PMI above 50 indicate?',opts:['Contraction','Stagnation','Expansion','Recession'],c:2},{q:'India\'s services exports crossed what annualised rate?',opts:['$200B','$280B','$350B','$400B'],c:2}],
+  i3:[{q:'What is Hassabis\'s top AI achievement?',opts:['GPT-4','DALL·E','AlphaFold','Gemini'],c:2},{q:'AGI timelines per Hassabis?',opts:['Already here','Within 5 years','Decades away','Centuries away'],c:2},{q:'AlphaFold is cited in how many papers?',opts:['100,000','500,000','1,000,000+','5,000,000'],c:2}],
+};
+
+/* ── STATE ── */
+let isGuest=false,uT=[],uC=[],uP=[],curSug='topics',sched='once',schedTime1='07:00';
+let occChoice='',curDet=null,curQInt=null,qIdx=0,qAns=[];
+let aPl=false,aEl=0,aTot=204,aIntv=null,aUsed=0;
+let expGrps=new Set(),gF='all';
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',()=>{buildTicker();renderSugs('topics');});
+
+function buildTicker(){
+  const items=['AI Agents','Space Commercialisation','Longevity Research','Climate Tech','Indian Economy','Quantum Computing','Neurotech','Open Source AI','Geopolitics','Lex Fridman','Kurzgesagt','Veritasium','CS50 Harvard'];
+  const tr=document.getElementById('tickerTrack');if(!tr)return;
+  const all=[...items,...items];
+  tr.innerHTML=all.map(t=>`<span class="ticker-item"><span>${t}</span></span><span class="ticker-sep">·</span>`).join('');
+}
+
+/* ── SCREEN NAV ── */
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+/* ── GUEST MODAL ── */
+function showGuestModal(){document.getElementById('guestModal').classList.add('show');}
+function closeGuestModal(){document.getElementById('guestModal').classList.remove('show');}
+document.addEventListener('click',e=>{if(e.target===document.getElementById('guestModal'))closeGuestModal();});
+
+/* ── SIGN IN ── */
+function goOnboarding(signed){
+  isGuest=!signed;
+  const ch=document.getElementById('chSec'),pl=document.getElementById('plSec');
+  if(isGuest){ch.style.opacity='.4';ch.style.pointerEvents='none';pl.style.opacity='.4';pl.style.pointerEvents='none';}
+  else{ch.style.opacity='1';ch.style.pointerEvents='auto';pl.style.opacity='1';pl.style.pointerEvents='auto';}
+  // Show step 0 (occupation)
+  ['ob-s0','ob-s1','ob-v','ob-s2'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=id==='ob-s0'?'block':'none';});
+  document.getElementById('obFill').style.width='20%';
+  document.getElementById('obLbl').textContent='Step 1 of 3';
+  showScreen('onboarding');
+}
+
+/* ── OCCUPATION ── */
+function pickOcc(el,val){
+  occChoice=val;
+  document.querySelectorAll('.occ-card').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('ob0Btn').disabled=false;
+  // Update profile occupation label
+  const labels={student:'Student',founder:'Founder / Business owner',employee:'Full-time employee',intern:'Intern',jobseeker:'Looking for jobs',other:'Other'};
+  const pfOcc=document.getElementById('pfOcc');const pfOccSub=document.getElementById('pfOccSub');
+  if(pfOcc)pfOcc.textContent=labels[val]||val;
+  if(pfOccSub)pfOccSub.textContent=labels[val]||val;
+}
+
+function goStep1(){
+  document.getElementById('ob-s0').style.display='none';
+  document.getElementById('ob-s1').style.display='block';
+  document.getElementById('obFill').style.width='50%';
+  document.getElementById('obLbl').textContent='Step 2 of 3';
+}
+
+/* ── ONBOARDING STEP 1 ── */
+function renderSugs(tab){
+  curSug=tab;
+  document.getElementById('sugChips').innerHTML=SUGS[tab].map(it=>{
+    const isSel=tab==='topics'?uT.includes(it.l):tab==='channels'?uC.some(c=>c.l===it.l):uP.some(p=>p.l===it.l);
+    const sc=tab==='topics'?'s-t':tab==='channels'?'s-c':'s-p';
+    return `<button class="ob-chip ${isSel?sc:''}" onclick="pickSug('${tab}','${it.l}','${it.u||''}')"><span style="font-size:13px">${it.i}</span> ${it.l}</button>`;
+  }).join('');
+}
+
+function setSugTab(el,tab){document.querySelectorAll('.ob-sug-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderSugs(tab);}
+
+function pickSug(type,label,url){
+  if(type==='topics'){if(isGuest&&uT.length>=2&&!uT.includes(label)){showToast('Guest limit: 2 topics');return;}uT.includes(label)?uT.splice(uT.indexOf(label),1):uT.push(label);}
+  if(type==='channels'){if(isGuest){showToast('Sign up to follow channels');return;}const i=uC.findIndex(c=>c.l===label);i>-1?uC.splice(i,1):uC.push({l:label,url:`https://youtube.com/@${url}`});}
+  if(type==='playlists'){if(isGuest){showToast('Sign up to follow playlists');return;}const i=uP.findIndex(p=>p.l===label);i>-1?uP.splice(i,1):uP.push({l:label,url:`https://youtube.com/playlist?list=${url}`});}
+  renderSugs(curSug);updSel();
+}
+
+function addI(type){
+  if(type==='topic'){const v=document.getElementById('tInp').value.trim();if(!v)return;if(isGuest&&uT.length>=2){showToast('Guest limit: 2 topics');return;}if(!uT.includes(v))uT.push(v);document.getElementById('tInp').value='';}
+  if(type==='channel'){const v=document.getElementById('chInp').value.trim();if(!v)return;if(!v.includes('youtube.com')){showToast('Please paste a valid YouTube channel URL');return;}const l=v.split('@').pop().split('/')[0]||'Channel';if(!uC.some(c=>c.url===v))uC.push({l,url:v});document.getElementById('chInp').value='';}
+  if(type==='playlist'){const v=document.getElementById('plInp').value.trim();if(!v)return;if(!v.includes('youtube.com')){showToast('Please paste a valid YouTube playlist URL');return;}if(!uP.some(p=>p.url===v))uP.push({l:'Playlist '+(uP.length+1),url:v});document.getElementById('plInp').value='';}
+  renderSugs(curSug);updSel();
+}
+
+function updSel(){
+  const tot=uT.length+uC.length+uP.length;
+  const bar=document.getElementById('obSelBar'),btn=document.getElementById('ob1Btn'),upg=document.getElementById('obUpgrade');
+  bar.style.display=tot>0?'block':'none';
+  document.getElementById('obSelCt').textContent=`${tot} selected`;
+  if(isGuest&&uT.length>2){upg.style.display='block';btn.disabled=true;}else{upg.style.display='none';btn.disabled=tot===0;}
+  const all=[...uT.map(t=>({l:t,t:'t'})),...uC.map(c=>({l:c.l,t:'c'})),...uP.map(p=>({l:p.l,t:'p'}))];
+  document.getElementById('obSelTags').innerHTML=all.map(it=>`<div class="ob-mini ${it.t}">${it.l}<span class="ob-mini-x" onclick="removeI('${it.t}','${it.l}')">×</span></div>`).join('');
+  renderSugs(curSug);
+}
+
+function removeI(t,l){if(t==='t')uT=uT.filter(x=>x!==l);if(t==='c')uC=uC.filter(x=>x.l!==l);if(t==='p')uP=uP.filter(x=>x.l!==l);updSel();}
+function clearOb(){uT=[];uC=[];uP=[];updSel();}
+
+function obBack(){
+  const s2=document.getElementById('ob-s2'),sv=document.getElementById('ob-v'),s1=document.getElementById('ob-s1'),s0=document.getElementById('ob-s0');
+  if(s2&&s2.style.display!=='none'){s2.style.display='none';sv&&(sv.style.display='none');s1&&(s1.style.display='block');document.getElementById('obFill').style.width='50%';document.getElementById('obLbl').textContent='Step 2 of 3';}
+  else if(sv&&sv.style.display!=='none'){sv.style.display='none';s1&&(s1.style.display='block');}
+  else if(s1&&s1.style.display!=='none'){s1.style.display='none';s0&&(s0.style.display='block');document.getElementById('obFill').style.width='20%';document.getElementById('obLbl').textContent='Step 1 of 3';}
+  else showScreen('signin');
+}
+
+/* VERIFY — blocked topics shown in grey with strikethrough */
+function goVerify(){
+  document.getElementById('ob-s1').style.display='none';
+  document.getElementById('ob-v').style.display='block';
+  document.getElementById('obFill').style.width='75%';
+  let h='';
+  if(uT.length){
+    h+=`<div class="v-sec">Topics (${uT.length})</div>`;
+    h+=uT.map((t,i)=>{
+      const isBlocked=BLOCKED_TOPICS.some(b=>t.toLowerCase().includes(b));
+      return `<div class="v-item ${isBlocked?'blocked':''}" style="animation-delay:${i*.06}s">
+        <div class="v-icon" style="background:var(--surface)">📰</div>
+        <div class="v-name">${t}</div>
+        ${isBlocked
+          ?`<div class="v-blocked">✗ Excluded</div>`
+          :`<div class="v-ok">✓ Safe</div>`}
+      </div>`;
+    }).join('');
+  }
+  if(uC.length){h+=`<div class="v-sec">Channels (${uC.length})</div>`;h+=uC.map((c,i)=>`<div class="v-item" style="animation-delay:${i*.06}s"><div class="v-icon" style="background:var(--a-pale)">▶️</div><div style="flex:1;min-width:0"><div class="v-name">${c.l}</div><div style="font-size:11px;color:var(--ink4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.url}</div></div><div class="v-ok">✓ Valid</div></div>`).join('');}
+  if(uP.length){h+=`<div class="v-sec">Playlists (${uP.length})</div>`;h+=uP.map((p,i)=>`<div class="v-item" style="animation-delay:${i*.06}s"><div class="v-icon" style="background:var(--c-slate-pale)">📋</div><div style="flex:1;min-width:0"><div class="v-name">${p.l}</div><div style="font-size:11px;color:var(--ink4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.url}</div></div><div class="v-ok">✓ Valid</div></div>`).join('');}
+  document.getElementById('vBody').innerHTML=h;
+}
+
+function confirmV(){
+  document.getElementById('ob-v').style.display='none';
+  document.getElementById('ob-s2').style.display='block';
+  document.getElementById('obFill').style.width='100%';
+  document.getElementById('obLbl').textContent='Step 3 of 3';
+  updSum();
+}
+
+/* ── SCHEDULE ── */
+function selSched(el,val){
+  sched=val;
+  document.querySelectorAll('.ob-sched-opt').forEach(o=>o.classList.remove('on'));
+  el.classList.add('on');
+  // Show/hide time pickers
+  document.getElementById('tp-once').style.display=val==='once'?'block':'none';
+  document.getElementById('tp-twice').style.display=val==='twice'?'block':'none';
+  if(val==='once')document.getElementById('tp-once').classList.add('show');
+  if(val==='twice')document.getElementById('tp-twice').classList.add('show');
+  updSum();
+}
+
+function calcSecondTime(){
+  const t=document.getElementById('time2').value;
+  if(!t)return;
+  const[h,m]=t.split(':').map(Number);
+  const h2=(h+12)%24;
+  const period=h2>=12?'PM':'AM';
+  const h12=h2===0?12:h2>12?h2-12:h2;
+  document.getElementById('secondTimeLbl').textContent=`Second delivery: ${h12}:${String(m).padStart(2,'0')} ${period} (auto, 12 hrs later)`;
+  updSum();
+}
+
+function fmtTime(t){
+  if(!t)return'7:00 AM';
+  const[h,m]=t.split(':').map(Number);
+  const p=h>=12?'PM':'AM';
+  const h12=h===0?12:h>12?h-12:h;
+  return`${h12}:${String(m).padStart(2,'0')} ${p}`;
+}
+
+function updSum(){
+  const b=document.getElementById('obSum');if(!b)return;
+  const pts=[];
+  if(uT.length)pts.push(`${uT.length} topic${uT.length>1?'s':''}`);
+  if(uC.length)pts.push(`${uC.length} channel${uC.length>1?'s':''}`);
+  if(uP.length)pts.push(`${uP.length} playlist${uP.length>1?'s':''}`);
+  let schedStr='';
+  if(sched==='once'){
+    const t=document.getElementById('time1')?.value||'07:00';
+    schedStr=`Once daily at ${fmtTime(t)}`;
+    schedTime1=t;
+  }else if(sched==='twice'){
+    const t=document.getElementById('time2')?.value||'07:00';
+    const[h,m]=t.split(':').map(Number);
+    const h2=(h+12)%24;
+    schedStr=`${fmtTime(t)} and ${fmtTime(`${String(h2).padStart(2,'0')}:${String(m).padStart(2,'0')}`)}`;
+  }else{schedStr='On demand (up to 6×/day)';}
+  b.innerHTML=`<strong>${pts.length?pts.join(', '):'No interests yet'}</strong> · ${schedStr}${isGuest?' · <span style="color:var(--warn)">Guest mode</span>':''}`;
+  // Update dashboard next time display
+  const nxt=document.getElementById('dbNext');
+  if(nxt&&sched!=='manual'){const t=document.getElementById('time1')?.value||'07:00';nxt.textContent=fmtTime(t);}
+  // Update profile schedule
+  const pfSched=document.getElementById('pfSched');
+  if(pfSched)pfSched.textContent=sched==='manual'?'On demand':schedStr;
+}
+
+/* ── DASHBOARD ── */
+function initDb(){
+  const d=new Date();
+  document.getElementById('dbUpd').textContent='today '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
+  if(isGuest)document.getElementById('gBadge').style.display='flex';
+  renderDigest('today');
+}
+
+function swTab(tab,el){
+  document.querySelectorAll('.db-tab').forEach(t=>t.classList.remove('on'));
+  if(el)el.classList.add('on');
+  const m=document.getElementById('dbMeta'),s=document.getElementById('dbSubs');
+  m.style.display=tab==='digest'?'flex':'none';
+  s.style.display=tab==='digest'?'flex':'none';
+  if(tab==='digest'){renderDigest('today');return;}
+  if(tab==='interests'){renderInts();return;}
+  if(tab==='glossary'){renderGlos();return;}
+  if(tab==='quiz'){renderQSel();return;}
+}
+
+function swNav(tab){document.querySelectorAll('.db-nb').forEach(b=>b.classList.remove('on'));const el=document.getElementById(`dbn-${tab}`);if(el)el.classList.add('on');}
+
+function setSubTab(el,f){document.querySelectorAll('.db-subtab').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderDigest(f);}
+
+function renderDigest(f){
+  const fd=document.getElementById('dbFeed');
+  const d=new Date(),h=d.getHours();
+  const gr=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  if(!f||f==='today'){
+    const items=FEED.filter(x=>x.dA===0);
+    const hdr=`<div style="margin-bottom:16px"><div style="font-family:'Instrument Serif',serif;font-size:19px;letter-spacing:-.02em;margin-bottom:3px;color:var(--ink)">${gr} 👋</div><div style="font-size:13px;color:var(--ink3);margin-bottom:11px">Your personalised briefing for ${d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})}</div><button onclick="playDailyDigest()" style="background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:8px 14px;font-size:13px;font-weight:500;color:var(--ink2);display:inline-flex;align-items:center;gap:7px;cursor:pointer;transition:all .2s;font-family:'Satoshi',sans-serif" onmouseover="this.style.borderColor='var(--a-rule)';this.style.color='var(--a)';this.style.background='var(--a-pale)'" onmouseout="this.style.borderColor='var(--rule)';this.style.color='var(--ink2)';this.style.background='var(--surface)'">🎧 Listen to today's full digest</button></div>`;
+    if(!items.length){fd.innerHTML=hdr+`<div style="text-align:center;padding:36px 20px;color:var(--ink4);background:var(--surface);border-radius:var(--r-lg);border:1px dashed var(--rule2)"><div style="font-size:28px;margin-bottom:9px">📭</div><div style="font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:4px">No new updates today</div><div style="font-size:12px">Browse past news in Topics, Channels, and Playlists.</div></div>`;return;}
+    fd.innerHTML=hdr+items.map((item,i)=>nCard(item,i)).join('');return;
+  }
+  const tm={topics:'topic',channels:'channel',playlists:'playlist'};
+  const it=tm[f];
+  const mi=INTS.filter(x=>x.type===it&&!x.archived);
+  if(!mi.length){fd.innerHTML=`<div style="text-align:center;padding:36px 20px;color:var(--ink4);background:var(--surface);border-radius:var(--r-lg);border:1px dashed var(--rule2)"><div style="font-size:28px;margin-bottom:9px">🔍</div><div style="font-size:13px;font-weight:700;color:var(--ink2);margin-bottom:4px">No ${f} added yet</div><div style="font-size:12px">Go to Interests to add some.</div></div>`;return;}
+  fd.innerHTML=mi.map(int=>{
+    const news=FEED.filter(x=>x.iid===int.id).sort((a,b)=>a.dA-b.dA);
+    const tc=news.filter(n=>n.dA===0).length;
+    const isE=expGrps.has(int.id);
+    const su=SETUP[int.id];
+    return `<div class="grp"><div class="grp-hdr" onclick="togGrp('${int.id}','${f}')"><div class="grp-icon" style="background:${int.bg}">${int.icon}</div><div class="grp-nr"><div class="grp-name">${int.name}<span class="grp-ct" style="background:${int.bg};color:${int.color}">${news.length}</span>${tc>0?`<span class="grp-new">${tc} new</span>`:''}</div><div class="grp-brief">${BRIEFS[int.id]||''}</div></div><div class="grp-chev ${isE?'open':''}">⌄</div></div>${isE?`<div class="grp-body">${su?`<div class="grp-setup"><div style="font-size:16px;flex-shrink:0">📋</div><div><div class="grp-setup-lbl">${su.label}</div><div class="grp-setup-txt">${su.text}</div></div></div>`:''
+    }${grpNews(news)}</div>`:''}</div>`;
+  }).join('');
+}
+
+function togGrp(id,f){expGrps.has(id)?expGrps.delete(id):expGrps.add(id);renderDigest(f);}
+
+function grpNews(items){
+  if(!items.length)return`<div style="padding:14px;text-align:center;font-size:13px;color:var(--ink4)">No news yet.</div>`;
+  const g={};items.forEach(i=>{const k=i.dA===0?'Today':i.dA===1?'Yesterday':`${i.dA} days ago`;if(!g[k])g[k]=[];g[k].push(i);});
+  return Object.entries(g).map(([lbl,gI])=>`<div class="grp-date">${lbl}</div>${gI.map(i=>`<div class="grp-row" onclick="openDet(${i.id})"><div class="grp-row-title">${i.title}</div><div class="grp-row-intro">${i.intro.slice(0,110)}…</div><div class="grp-row-foot"><div class="grp-row-meta">📰 ${i.sources.length} sources · ${i.time}</div><button class="nc-btn" onclick="event.stopPropagation();playAudioFor(${i.id})">🎧 Listen</button></div></div>`).join('')}`).join('');
+}
+
+function nCard(item,i){
+  return `<div class="nc" style="animation-delay:${i*.08}s" onclick="openDet(${item.id})"><div class="nc-bar" style="background:${item.tc}"></div><div class="nc-body"><div class="nc-meta"><span class="nc-badge" style="background:${item.tb};color:${item.tc}">${item.type==='channel'?'▶ ':''}${item.topic}</span><span class="nc-time">${item.time}</span></div><div class="nc-title">${item.title}</div><div class="nc-intro">${item.intro.slice(0,140)}…</div><ul class="nc-bullets">${item.bullets.slice(0,2).map(b=>`<li>${b}</li>`).join('')}</ul><div class="nc-foot"><div class="nc-src">📰 ${item.sources.length} sources</div><div class="nc-acts"><button class="nc-btn ${item.type==='channel'?'yt':''}" onclick="event.stopPropagation();playAudioFor(${item.id})">🎧 Listen</button><button class="nc-btn" onclick="event.stopPropagation();openQuizFor('${item.iid}')">🧠 Quiz</button></div></div></div></div>`;
+}
+
+function doRefresh(){
+  const btn=document.getElementById('dbRefBtn');
+  btn.innerHTML='↻ Fetching…';btn.disabled=true;
+  document.getElementById('dbFeed').innerHTML=[1,2,3].map(()=>`<div class="sk"><div class="skel" style="height:10px;width:28%;margin-bottom:9px"></div><div class="skel" style="height:18px;width:88%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:100%;margin-bottom:5px"></div><div class="skel" style="height:12px;width:75%;margin-bottom:11px"></div><div class="skel" style="height:10px;width:38%"></div></div>`).join('');
+  setTimeout(()=>{btn.innerHTML='↻ Refresh';btn.disabled=false;renderDigest('today');showToast('✓ Digest updated');},2400);
+}
+
+/* INTERESTS */
+function renderInts(){
+  const fd=document.getElementById('dbFeed');
+  const s={topic:[],channel:[],playlist:[]};INTS.forEach(i=>s[i.type].push(i));
+  let h='<div class="int-panel">';
+  if(s.topic.length){h+=`<div class="int-sec-lbl">📰 Topics</div>`;s.topic.forEach(i=>{h+=intCard(i);});}
+  if(s.channel.length){h+=`<div class="int-sec-lbl">▶️ Channels</div>`;s.channel.forEach(i=>{h+=intCard(i);});}
+  if(s.playlist.length){h+=`<div class="int-sec-lbl">📋 Playlists</div>`;s.playlist.forEach(i=>{h+=intCard(i);});}
+  h+='</div>';fd.innerHTML=h;
+}
+
+function intCard(it){
+  const bB={topic:'#eeecff',channel:'var(--a-pale)',playlist:'var(--c-slate-pale)'}[it.type];
+  const bC={topic:'#4f46e5',channel:'var(--a)',playlist:'var(--c-slate)'}[it.type];
+  return `<div class="int-card ${it.archived?'arch':''}"><div class="int-top"><div class="int-icon" style="background:${it.bg}">${it.icon}</div><div class="int-nr"><span class="int-name">${it.name}</span><span class="int-ct" style="background:${bB};color:${bC}">${it.articles}</span>${it.archived?'<span class="int-paused">Paused</span>':''}</div></div><div class="int-brief">${BRIEFS[it.id]||''}</div><div class="int-foot"><div class="int-updated">Last updated: ${it.last}</div><div class="int-acts">${it.archived?`<button class="int-btn" onclick="togArch('${it.id}')">Resume</button>`:`<button class="int-btn" onclick="togArch('${it.id}')">Pause</button>`}<button class="int-btn del" onclick="delInt('${it.id}')">Delete</button><button class="int-view" onclick="openIntDet('${it.id}')">View →</button></div></div></div>`;
+}
+
+function togArch(id){const i=INTS.find(x=>x.id===id);if(i){i.archived=!i.archived;renderInts();showToast(i.archived?'Paused refreshes':'Refreshes resumed');}}
+function delInt(id){const ix=INTS.findIndex(x=>x.id===id);if(ix>-1){const n=INTS[ix].name;INTS.splice(ix,1);renderInts();showToast(`Removed "${n}"`);}}
+
+function openIntDet(id){
+  const it=INTS.find(x=>x.id===id);if(!it)return;
+  const b=document.getElementById('iDetBadge');b.textContent=(it.type==='channel'?'▶ ':'')+it.name;b.style.background=it.bg;b.style.color=it.color;
+  document.getElementById('iDetName').textContent=it.name;
+  document.getElementById('iDetMeta').innerHTML=`<div>📰 ${it.articles} articles</div><div>🕐 Last: ${it.last}</div><div>${it.archived?'⏸ Paused':'✓ Active'}</div>`;
+  const news=FEED.filter(x=>x.iid===id).sort((a,b)=>a.dA-b.dA);
+  const g={};news.forEach(x=>{const k=x.dA===0?'Today':x.dA===1?'Yesterday':`${x.dA} days ago`;if(!g[k])g[k]=[];g[k].push(x);});
+  document.getElementById('iDetFeed').innerHTML=Object.entries(g).map(([l,gi])=>`<div class="int-date-hdr">${l}</div>${gi.map(x=>`<div class="nc" style="margin-bottom:10px" onclick="openDet(${x.id})"><div class="nc-bar" style="background:${it.color}"></div><div class="nc-body"><div class="nc-title" style="font-size:15px">${x.title}</div><div class="nc-intro">${x.intro.slice(0,120)}…</div><div class="nc-foot"><div class="nc-src">📰 ${x.sources.length} sources</div><span style="font-size:12px;color:${it.color};font-weight:600">${x.time}</span></div></div></div>`).join('')}`).join('')||'<div style="padding:20px;text-align:center;color:var(--ink4);font-size:13px">No news yet.</div>';
+  showScreen('interest-detail');
+}
+
+/* GLOSSARY */
+function renderGlos(){
+  const fd=document.getElementById('dbFeed');
+  const srcs=['All',...new Set(GLOS.map(g=>g.src))];
+  const filt=gF==='all'?GLOS:GLOS.filter(g=>g.src===gF);
+  fd.innerHTML=`<div class="glos-panel"><div style="font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:-.02em;margin-bottom:4px;color:var(--ink)">Glossary</div><div style="font-size:13px;color:var(--ink3);margin-bottom:12px">Terms extracted from your briefings.</div><div class="glos-filter">${srcs.map(s=>{const v=s==='All'?'all':s;return`<button class="glos-pill ${gF===v?'on':''}" onclick="gF='${v}';renderGlos()">${s}</button>`;}).join('')}</div>${filt.map(g=>`<div class="glos-card"><div class="glos-term">${g.term}</div><div class="glos-def">${g.def}</div><div class="glos-src">From: ${g.src}</div></div>`).join('')}</div>`;
+}
+
+/* QUIZ SELECT */
+function renderQSel(){
+  const fd=document.getElementById('dbFeed');
+  fd.innerHTML=`<div class="qz-panel"><div class="qz-title">Quiz yourself</div><div class="qz-sub">Pick an interest — questions come from all your saved news for that topic.</div>${INTS.filter(i=>!i.archived).map(it=>`<div class="qz-card" onclick="openQuizFor('${it.id}')"><div class="qz-c-icon" style="background:${it.bg}">${it.icon}</div><div><div class="qz-c-name">${it.name}</div><div class="qz-c-meta">${it.articles} articles in pool</div></div><div class="qz-c-arr">→</div></div>`).join('')}</div>`;
+}
+
+function openQuizFor(id){curQInt=id;qIdx=0;qAns=[];const it=INTS.find(i=>i.id===id);document.getElementById('qvTopic').textContent=it?it.name:'Quiz';renderQuiz();showScreen('quiz-view');}
+
+function openQuiz(){
+  if(!curDet){openQuizFor(Object.keys(QUIZ)[0]);return;}
+  const item=FEED.find(f=>f.id===curDet);
+  openQuizFor(item?.iid||Object.keys(QUIZ)[0]);
+}
+
+/* DETAIL */
+function openDet(id){
+  curDet=id;const item=FEED.find(f=>f.id===id);if(!item)return;
+  const b=document.getElementById('detBadge');b.textContent=(item.type==='channel'?'▶ ':'')+item.topic;b.style.background=item.tb;b.style.color=item.tc;
+  document.getElementById('audioTitle').textContent=item.title;
+  document.getElementById('detBody').innerHTML=`<div style="height:3px;background:${item.tc};margin:-20px -14px 20px"></div><div class="det-title">${item.title}</div><div class="det-byline"><div class="det-by-item">🕐 ${item.time}</div><div class="det-by-item">📰 ${item.sources.length} sources</div><div class="det-by-item" style="color:var(--ok)">↑ Positive</div></div><div class="det-intro">${item.intro}</div><div class="det-lbl">Key points</div><ul class="det-bullets">${item.bullets.map(b=>`<li><div class="det-dot" style="background:${item.tc}"></div>${b}</li>`).join('')}</ul><div class="det-closing">${item.closing}</div><div class="det-div"></div><div class="det-lbl">Key terms</div><div class="det-terms">${item.terms.map(t=>`<div class="det-term">${t}</div>`).join('')}</div><div class="det-div"></div><div class="det-lbl">Sources (${item.sources.length})</div><div class="det-srcs">${item.sources.map(s=>`<div class="det-src"><div class="det-src-fav">${s[0]}</div>${s}</div>`).join('')}</div>`;
+  showScreen('detail');
+}
+
+/* AUDIO — never auto-plays, only on explicit action */
+function playDailyDigest(){document.getElementById('audioTitle').textContent="Today's full digest — 3 stories";aEl=0;aTot=612;showAudioBar();if(!aPl)togAudio();}
+function playAudio(){if(aUsed>=20){showToast('Daily audio limit (20/day) reached');return;}aUsed++;document.getElementById('audioLmt').textContent=`${20-aUsed} left`;showAudioBar();if(!aPl)togAudio();}
+function playAudioFor(id){const item=FEED.find(f=>f.id===id);if(item)document.getElementById('audioTitle').textContent=item.title;playAudio();}
+function showAudioBar(){document.getElementById('audioBar').classList.add('show');}
+
+function togAudio(){
+  aPl=!aPl;document.getElementById('audioPlay').textContent=aPl?'⏸':'▶';
+  if(aPl){aIntv=setInterval(()=>{aEl=Math.min(aEl+1,aTot);document.getElementById('audioFill').style.width=(aEl/aTot*100)+'%';const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;document.getElementById('audioEl').textContent=fmt(aEl);document.getElementById('audioTot').textContent=fmt(aTot);if(aEl>=aTot){clearInterval(aIntv);aPl=false;document.getElementById('audioPlay').textContent='▶';}},1000);}
+  else clearInterval(aIntv);
+}
+function seekAudio(e){const r=e.currentTarget.getBoundingClientRect();aEl=Math.floor((e.clientX-r.left)/r.width*aTot);document.getElementById('audioFill').style.width=(aEl/aTot*100)+'%';}
+function closeAudio(){document.getElementById('audioBar').classList.remove('show');clearInterval(aIntv);aPl=false;aEl=0;document.getElementById('audioPlay').textContent='▶';document.getElementById('audioFill').style.width='0%';}
+
+/* QUIZ */
+function renderQuiz(){
+  const w=document.getElementById('qvBody');
+  const qs=QUIZ[curQInt]||QUIZ[Object.keys(QUIZ)[0]];
+  if(qIdx>=qs.length){
+    const s=qAns.filter((a,i)=>a===qs[i].c).length;
+    w.innerHTML=`<div class="qv-result"><div class="qv-score">${s}/${qs.length}</div><div class="qv-score-lbl">${s===qs.length?'🎉 Perfect!':s>=Math.ceil(qs.length/2)?'👍 Well done!':'📖 Keep reading!'}</div><div class="qv-result-btns"><button class="btn btn-primary btn-wide" onclick="qIdx=0;qAns=[];renderQuiz()">Try again</button><button class="btn btn-ghost btn-wide" onclick="showScreen('dashboard')">Back to digest</button></div></div>`;
+    return;
+  }
+  const q=qs[qIdx];const L=['A','B','C','D'];
+  w.innerHTML=`<div class="qv-prog">${qs.map((_,i)=>`<div class="qv-seg ${i<qIdx?'done':i===qIdx?'active':''}"></div>`).join('')}</div><div class="qv-n">Question ${qIdx+1} of ${qs.length}</div><div class="qv-q">${q.q}</div><div class="qv-opts">${q.opts.map((o,i)=>`<button class="qv-opt" data-l="${L[i]}" onclick="ansQ(${i})">${o}</button>`).join('')}</div>`;
+}
+
+function ansQ(idx){
+  const qs=QUIZ[curQInt]||QUIZ[Object.keys(QUIZ)[0]];const q=qs[qIdx];
+  document.querySelectorAll('.qv-opt').forEach(o=>o.disabled=true);
+  document.querySelectorAll('.qv-opt')[idx].classList.add(idx===q.c?'correct':'wrong');
+  if(idx!==q.c)document.querySelectorAll('.qv-opt')[q.c].classList.add('correct');
+  qAns.push(idx);setTimeout(()=

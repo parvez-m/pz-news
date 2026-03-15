@@ -1,0 +1,36 @@
+name = "pz-news-worker"
+main = "src/index.ts"
+compatibility_date = "2025-03-14"
+compatibility_flags = ["nodejs_compat"]
+
+[triggers]
+crons = ["0 2 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pz-news-db"
+database_id = "0899595c-7182-411e-bbd6-54cae18cae81"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "454426fe2b1b45ea8bbc8147d7fd6b99"
+
+[[queues.producers]]
+binding = "QUEUE"
+queue = "pz-news-jobs"
+
+[[queues.consumers]]
+queue = "pz-news-jobs"
+max_batch_size = 10
+max_batch_timeout = 30
+
+[ai]
+binding = "AI"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "pz-news-audio"
+
+[vars]
+ENVIRONMENT = "development"
+ELEVENLABS_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"
