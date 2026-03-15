@@ -1,3 +1,4 @@
+// pz-news v1.0.0
 import Link from "next/link";
 import PaperDate from "@/components/landing/PaperDate";
 
