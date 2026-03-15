@@ -15,23 +15,68 @@ type GoogleTokenInfo = {
   error_description?: string;
 };
 
+type GoogleTokenResponse = {
+  access_token?: string;
+  id_token?: string;
+  error?: string;
+  error_description?: string;
+};
+
 /**
  * POST /api/v1/auth/google
- * Body: { id_token: string }
+ * Body: { code: string; redirect_uri: string }  ← Authorization Code flow
+ *    or { id_token: string }                     ← legacy ID-token flow
  *
- * Verifies the Google ID token, upserts the user in D1,
+ * Verifies the user with Google, upserts in D1,
  * issues an app JWT, and stores the session in KV.
  */
 auth.post("/google", async (c) => {
-  const body = await c.req.json<{ id_token: string }>();
+  const body = await c.req.json<{
+    code?: string;
+    redirect_uri?: string;
+    id_token?: string;
+  }>();
 
-  if (!body.id_token) {
-    return c.json({ error: "id_token is required" }, 400);
+  let idToken: string;
+
+  if (body.code) {
+    // ── Authorization Code flow ───────────────────────────────────────────
+    if (!body.redirect_uri) {
+      return c.json({ error: "redirect_uri is required with code" }, 400);
+    }
+
+    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        code: body.code,
+        client_id: c.env.GOOGLE_CLIENT_ID,
+        client_secret: c.env.GOOGLE_CLIENT_SECRET,
+        redirect_uri: body.redirect_uri,
+        grant_type: "authorization_code",
+      }),
+    });
+
+    const tokens = await tokenRes.json<GoogleTokenResponse>();
+
+    if (!tokenRes.ok || !tokens.id_token) {
+      return c.json(
+        { error: tokens.error_description ?? tokens.error ?? "Failed to exchange auth code" },
+        401
+      );
+    }
+
+    idToken = tokens.id_token;
+  } else if (body.id_token) {
+    // ── Legacy ID-token flow ──────────────────────────────────────────────
+    idToken = body.id_token;
+  } else {
+    return c.json({ error: "code or id_token is required" }, 400);
   }
 
-  // Verify with Google's tokeninfo endpoint
+  // Verify id_token with Google's tokeninfo endpoint
   const res = await fetch(
-    `https://oauth2.googleapis.com/tokeninfo?id_token=${body.id_token}`
+    `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`
   );
   const google = await res.json<GoogleTokenInfo>();
 
@@ -69,7 +114,6 @@ auth.post("/google", async (c) => {
     c.env.JWT_SECRET
   );
 
-  // Store session in KV for revocation support
   await c.env.KV.put(`session:${jti}`, user.id, { expirationTtl: expiresIn });
 
   return c.json({ token, expires_in: expiresIn });
@@ -77,9 +121,6 @@ auth.post("/google", async (c) => {
 
 /**
  * POST /api/v1/auth/logout
- * Header: Authorization: Bearer <token>
- *
- * Deletes the session from KV, immediately invalidating the token.
  */
 auth.post("/logout", requireAuth, async (c) => {
   await c.env.KV.delete(`session:${c.get("jti")}`);

@@ -20,7 +20,7 @@ function CallbackInner() {
       return;
     }
 
-    exchangeAuthCode(code)
+    exchangeAuthCode(code, `${window.location.origin}/auth/callback`)
       .then(({ token }) => {
         localStorage.setItem("pz_token", token);
         if (window.opener) {

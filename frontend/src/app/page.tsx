@@ -3,13 +3,19 @@ import Link from "next/link";
 import PaperDate from "@/components/landing/PaperDate";
 
 const AUDIENCE = [
-  { icon: "💻", label: "Developers",  sub: "Frameworks, releases" },
-  { icon: "📊", label: "Analysts",    sub: "Markets, macro" },
-  { icon: "🚀", label: "Founders",    sub: "Startups, funding" },
-  { icon: "🔬", label: "Researchers", sub: "Papers, breakthroughs" },
-  { icon: "🔭", label: "Enthusiasts", sub: "Space, science" },
-  { icon: "🎓", label: "Students",    sub: "Courses, lectures" },
-  { icon: "🎙️", label: "Creators",    sub: "Trends, culture" },
+  { icon: "🔬", label: "Researchers",  sub: "Papers, discoveries" },
+  { icon: "💻", label: "Engineers",    sub: "Tech, frameworks" },
+  { icon: "🎓", label: "Students",     sub: "Courses, lectures" },
+  { icon: "📊", label: "Analysts",     sub: "Markets, macro" },
+  { icon: "🚀", label: "Founders",     sub: "Startups, trends" },
+  { icon: "🔭", label: "Enthusiasts",  sub: "Science, space" },
+  { icon: "✍️", label: "Writers",      sub: "Ideas, culture" },
+];
+
+const TICKER_ITEMS = [
+  "AI Agents", "Space Commercialisation", "Longevity Research", "Climate Tech",
+  "Quantum Computing", "Neurotech", "Open Source AI", "Geopolitics",
+  "Indian Economy", "Lex Fridman", "Kurzgesagt", "Veritasium",
 ];
 
 const PAPER_CARDS = [
@@ -38,49 +44,61 @@ const PAPER_CARDS = [
 
 const SOURCE_CARDS = [
   {
-    iconBg: "#e8f5ee",
+    n: "01",
     icon: "📰",
     title: "Topics & Keywords",
-    desc: "Follow any subject. We monitor hundreds of news sources, blogs, and publications and summarise what's new. No repetitions, no noise.",
-    chips: ["Generative AI", "AI Agents", "AI Native Development", "Vibe Coding", "Developer Experience", "Product Led Growth"],
+    desc: "Any subject you follow. We watch hundreds of publications, blogs, and sources worldwide.",
+    chips: ["AI Agents", "Space Exploration", "Quantum Computing", "+ your own"],
   },
   {
-    iconBg: "#e8f5ee",
+    n: "02",
     icon: "▶️",
     title: "YouTube Channels",
-    desc: "Never miss a video from creators you love. Get a written summary of every new upload. Skip the 30-minute video, read the 2-minute brief.",
-    chips: ["Fireship", "freeCodeCamp", "ThePrimeagen", "Traversy Media", "Y Combinator", "Google Developers"],
+    desc: "Never miss a video. Get a written and audio summary of every new upload from creators you follow.",
+    chips: ["Lex Fridman", "Kurzgesagt", "Veritasium", "+ your own"],
   },
   {
-    iconBg: "#edf5f0",
+    n: "03",
     icon: "📋",
     title: "YouTube Playlists",
-    desc: "Following a course or lecture series? Track playlists and get updated whenever new content is added, summarised in plain language.",
-    chips: ["CS50x 2024", "Deep Learning Specialization", "Full Stack Open", "ML Specialization", "Design Course"],
+    desc: "Track a course or lecture series. Get notified and summarised whenever new content is added.",
+    chips: ["CS50 Harvard", "MIT OpenCourseWare", "Stanford ML", "+ your own"],
   },
 ];
 
 const STEPS = [
   {
     n: "1",
-    title: "You pick your interests",
-    desc: 'Add keywords like "Generative AI" or "Developer Experience", paste YouTube channel or playlist URLs. Takes under a minute.',
+    title: "Pick what you care about",
+    desc: "Add topic keywords, paste YouTube channel or playlist URLs. Takes under 60 seconds. Change anytime.",
   },
   {
     n: "2",
-    title: "We fetch everything for you",
-    desc: "pz·news monitors hundreds of sources and YouTube across all your topics, continuously. So you never have to.",
+    title: "We monitor everything for you",
+    desc: "pz·news watches hundreds of sources and your YouTube feeds continuously — you never have to check again.",
   },
   {
     n: "3",
-    title: "Duplicates and noise are removed",
-    desc: "When 12 outlets cover the same story, you read it once. A clean, well-written summary with sources cited.",
+    title: "Duplicates and noise removed",
+    desc: "When 12 outlets cover the same story, you read it once — clean, well-written, every source cited.",
   },
   {
     n: "4",
-    title: "Your briefing is ready",
-    desc: "A newspaper-style digest waits every morning. Read in 10 minutes or listen to the full audio summary on your commute.",
+    title: "Read it or listen to it",
+    desc: "Your briefing is ready every morning. Read in minutes or listen as audio on your commute — your choice.",
   },
+];
+
+const EXPLORE = [
+  { icon: "🤖", name: "AI Agents",          type: "Topic" },
+  { icon: "🔭", name: "Space Commerce",      type: "Topic" },
+  { icon: "🧬", name: "Longevity Research",  type: "Topic" },
+  { icon: "🎙️", name: "Lex Fridman",         type: "YouTube Channel" },
+  { icon: "🦆", name: "Kurzgesagt",          type: "YouTube Channel" },
+  { icon: "🎓", name: "CS50 Harvard",        type: "Playlist" },
+  { icon: "⚛️", name: "Quantum Computing",   type: "Topic" },
+  { icon: "🌍", name: "Climate Tech",        type: "Topic" },
+  { icon: "💹", name: "Indian Economy",      type: "Topic" },
 ];
 
 export default function LandingPage() {
@@ -110,7 +128,9 @@ export default function LandingPage() {
           Stay ahead on what <span className="accent">matters</span> to you.
         </h1>
         <p className="l-hero-sub">
-          Pick any <strong>topic</strong>, <strong>YouTube channel</strong>, or <strong>playlist</strong>.
+          Pick any topic, <strong>YouTube channel</strong>, or <strong>playlist</strong>.
+          Every morning, pz·news delivers one clean, deduplicated briefing —{" "}
+          <strong>read it</strong> or <strong>listen</strong> on your commute.
         </p>
         <div className="l-hero-cta">
           <Link
@@ -118,7 +138,7 @@ export default function LandingPage() {
             className="btn-primary"
             style={{ width: "100%", maxWidth: 290, justifyContent: "center", fontSize: 15, padding: 15 }}
           >
-            Build my daily briefing →
+            Get started in 60 seconds →
           </Link>
           <a
             href="#how-it-works"
@@ -130,9 +150,21 @@ export default function LandingPage() {
         </div>
         <div className="l-hero-nudges">
           <div className="l-hero-nudge"><span className="nudge-check">✓</span> Up and running in under 60 seconds</div>
-          <div className="l-hero-nudge"><span className="nudge-check">✓</span> Read it or listen. Your choice, every day</div>
+          <div className="l-hero-nudge"><span className="nudge-check">✓</span> Read it or listen — your choice every day</div>
         </div>
       </section>
+
+      {/* TICKER */}
+      <div className="l-ticker-bar">
+        <div className="l-ticker-inner">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <div key={i} className="l-ticker-item">
+              <span>{item}</span>
+              <span className="l-ticker-sep">·</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* AUDIENCE STRIP */}
       <div className="l-audience">
@@ -187,16 +219,16 @@ export default function LandingPage() {
       <section className="l-sources">
         <div className="section-eyebrow">What you can follow</div>
         <h2 className="section-title">
-          Everything you care about,<br />in one place
+          Everything you care about,<br />in one place.
         </h2>
         <p className="section-sub">
-          From breaking news to your favourite YouTube creator&apos;s latest video.
-          pz·news pulls it all into one clean daily read.
+          From the latest research papers to your favourite YouTube creator&apos;s newest video —
+          pz·news pulls it together, removes the duplicates, and writes a briefing just for you.
         </p>
         <div className="l-src-cards">
           {SOURCE_CARDS.map((card) => (
             <div key={card.title} className="l-src-card">
-              <div className="l-src-icon" style={{ background: card.iconBg }}>{card.icon}</div>
+              <div className="l-src-n">{card.n}</div>
               <div className="l-src-title">{card.title}</div>
               <div className="l-src-desc">{card.desc}</div>
               <div className="l-src-chips">
@@ -213,7 +245,7 @@ export default function LandingPage() {
       <section className="l-how" id="how-it-works">
         <div className="section-eyebrow">How it works</div>
         <h2 className="section-title">
-          From the internet&apos;s noise<br />to your daily clarity
+          From the internet&apos;s noise<br />to your daily clarity.
         </h2>
         <div className="l-steps">
           {STEPS.map((step) => (
@@ -228,55 +260,51 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* EXPLORE — trending topics */}
+      <section className="l-explore">
+        <div className="section-eyebrow">Trending on pz·news</div>
+        <h2 className="section-title">See what people are following</h2>
+        <div className="l-exp-grid">
+          {EXPLORE.map((item) => (
+            <Link key={item.name} href="/signin" className="l-exp-card">
+              <span className="l-exp-icon">{item.icon}</span>
+              <div className="l-exp-name">{item.name}</div>
+              <div className="l-exp-desc">{item.type}</div>
+              <span className="l-exp-arr">Follow →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* DIGEST PREVIEW */}
-      <section className="l-preview" style={{ padding: "52px 20px", background: "var(--paper)", borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
+      <section className="l-preview">
         <div className="section-eyebrow" style={{ textAlign: "center" }}>What it looks like</div>
         <h2 className="section-title" style={{ textAlign: "center", marginBottom: 8 }}>Your digest, every morning.</h2>
         <p className="section-sub" style={{ textAlign: "center", margin: "0 auto 36px", maxWidth: 400 }}>
-          Clean, structured, and sourced from across the web.
+          Here is a sample of what waits for you each day. Clean, structured, and sourced from across the web.
         </p>
-        <div style={{
-          maxWidth: 360, margin: "0 auto",
-          background: "var(--white)", border: "1px solid var(--rule)",
-          borderRadius: 14, overflow: "hidden",
-          boxShadow: "0 12px 40px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.05)",
-        }}>
+        <div className="l-preview-phone">
           {/* Phone top bar */}
-          <div style={{
-            background: "var(--white)", padding: "12px 16px",
-            borderBottom: "1px solid var(--rule)",
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-          }}>
+          <div className="l-preview-topbar">
             <div className="logo-word" style={{ fontSize: 15 }}>
               <span className="lo-pz">pz</span><span className="lo-dot">•</span><span className="lo-news">news</span>
             </div>
-            <div style={{
-              width: 28, height: 28, borderRadius: "50%",
-              background: "var(--a)", color: "#fff",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 11, fontWeight: 700,
-            }}>P</div>
+            <div className="l-preview-avatar">P</div>
           </div>
           {/* Tab row */}
-          <div style={{ display: "flex", borderBottom: "1px solid var(--rule)", padding: "0 16px" }}>
+          <div className="l-preview-tabs">
             {["Digest", "Interests", "Glossary"].map((t, i) => (
-              <div key={t} style={{
-                padding: "8px 12px",
-                fontSize: 10, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" as const,
-                color: i === 0 ? "var(--a)" : "var(--ink4)",
-                borderBottom: i === 0 ? "2px solid var(--a)" : "2px solid transparent",
-                fontFamily: "'Satoshi', sans-serif",
-              }}>{t}</div>
+              <div key={t} className={`l-preview-tab${i === 0 ? " active" : ""}`}>{t}</div>
             ))}
           </div>
           {/* Greeting */}
-          <div style={{ padding: "12px 16px 4px", fontSize: 14, fontWeight: 700, color: "var(--ink)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Good morning 👋</div>
-          <div style={{ padding: "0 16px 10px", fontSize: 11, color: "var(--ink3)" }}>Your briefing for today</div>
+          <div className="l-preview-greeting">Good morning 👋</div>
+          <div className="l-preview-sub">Your briefing for today</div>
           {/* Card 1 — AI Agents */}
-          <div style={{ margin: "0 16px 10px", background: "var(--white)", border: "1px solid var(--rule)", borderRadius: 10, overflow: "hidden" }}>
+          <div className="l-preview-card">
             <div style={{ height: 2, background: "#4f46e5" }} />
             <div style={{ padding: 12 }}>
-              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" as const, padding: "2px 7px", borderRadius: 3, display: "inline-block", marginBottom: 7, background: "#eeecff", color: "#4f46e5" }}>AI AGENTS</div>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 3, display: "inline-block", marginBottom: 7, background: "#eeecff", color: "#4f46e5" }}>AI AGENTS</div>
               <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 13, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35, marginBottom: 6 }}>OpenAI launches Operator — autonomous agents that can book, buy and manage tasks</div>
               <div style={{ fontSize: 11, color: "var(--ink3)", lineHeight: 1.6, marginBottom: 8 }}>A significant shift from AI assistants to agents capable of taking real actions on the web on your behalf.</div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 7, borderTop: "1px solid var(--rule)" }}>
@@ -290,10 +318,10 @@ export default function LandingPage() {
             </div>
           </div>
           {/* Card 2 — Fireship */}
-          <div style={{ margin: "0 16px 16px", background: "var(--white)", border: "1px solid var(--rule)", borderRadius: 10, overflow: "hidden" }}>
+          <div className="l-preview-card" style={{ marginBottom: 16 }}>
             <div style={{ height: 2, background: "#1a5e3c" }} />
             <div style={{ padding: 12 }}>
-              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase" as const, padding: "2px 7px", borderRadius: 3, display: "inline-block", marginBottom: 7, background: "#e8f5ee", color: "#1a5e3c" }}>▶ FIRESHIP</div>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", padding: "2px 7px", borderRadius: 3, display: "inline-block", marginBottom: 7, background: "#e8f5ee", color: "#1a5e3c" }}>▶ FIRESHIP</div>
               <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 13, fontWeight: 700, color: "var(--ink)", lineHeight: 1.35, marginBottom: 6 }}>React 19 is here — what actually changed and what you need to update</div>
               <div style={{ fontSize: 11, color: "var(--ink3)", lineHeight: 1.6, marginBottom: 8 }}>Server components stable, new compiler in beta, and several hooks deprecated.</div>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 7, borderTop: "1px solid var(--rule)" }}>
@@ -314,23 +342,23 @@ export default function LandingPage() {
         <p className="l-proof-quote">
           &ldquo;I used to spend <strong>45 minutes every morning</strong> reading
           the same story across five different tabs. Now I get one clean briefing
-          and I&apos;m done in <strong>10 minutes</strong>.&rdquo;
+          and I&apos;m done in under <strong>10 minutes</strong>.&rdquo;
         </p>
         <div className="l-proof-attr">
-          Vivek Ravindran, Product Manager, Bengaluru
+          — <strong>Vivek Ravindran</strong>, Product Manager, Bengaluru
         </div>
         <div className="l-proof-stats">
           <div className="l-proof-stat">
             <div className="l-proof-stat-n">10 min</div>
-            <div className="l-proof-stat-l">avg. read time</div>
+            <div className="l-proof-stat-l">Avg read</div>
           </div>
           <div className="l-proof-stat">
             <div className="l-proof-stat-n">0</div>
-            <div className="l-proof-stat-l">duplicates</div>
+            <div className="l-proof-stat-l">Duplicates</div>
           </div>
           <div className="l-proof-stat">
             <div className="l-proof-stat-n">100%</div>
-            <div className="l-proof-stat-l">your interests</div>
+            <div className="l-proof-stat-l">Your interests</div>
           </div>
         </div>
       </section>

@@ -53,11 +53,12 @@ export async function signInWithGoogle(
 }
 
 export async function exchangeAuthCode(
-  code: string
+  code: string,
+  redirectUri: string
 ): Promise<{ token: string; expires_in?: number }> {
   return apiFetch("/api/v1/auth/google", {
     method: "POST",
-    body: JSON.stringify({ code }),
+    body: JSON.stringify({ code, redirect_uri: redirectUri }),
   });
 }
 
