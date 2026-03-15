@@ -27,9 +27,9 @@ max_batch_timeout = 30
 [ai]
 binding = "AI"
 
-[[r2_buckets]]
-binding = "R2"
-bucket_name = "pz-news-audio"
+# [[r2_buckets]]          # Uncomment after enabling R2 in Cloudflare Dashboard
+# binding = "R2"
+# bucket_name = "pz-news-audio"
 
 [vars]
 ENVIRONMENT = "development"
