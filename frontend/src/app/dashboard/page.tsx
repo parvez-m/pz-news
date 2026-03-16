@@ -112,12 +112,16 @@ function DetailOverlay({
   topicColor: tc,
   topicBg,
   topicLabel,
+  topicId,
+  router,
   onClose,
 }: {
   summary: Summary;
   topicColor: string;
   topicBg: string;
   topicLabel: string;
+  topicId: string;
+  router: ReturnType<typeof useRouter>;
   onClose: () => void;
 }) {
   const bullets   = parseMaybeJSON(summary.bullets);
@@ -216,11 +220,11 @@ function DetailOverlay({
 
       {/* Fixed bottom bar — Listen + Quiz only */}
       <div className="det-fixed-bar">
-        <button className="det-action primary" onClick={() => window.alert("Audio feature coming soon")}>
+        <button className="det-action primary" disabled style={{ opacity: 0.55, cursor: "not-allowed" }}>
           <span className="a-icon">🎧</span>
           Listen
         </button>
-        <button className="det-action" onClick={() => window.alert("Quiz feature coming soon")}>
+        <button className="det-action" onClick={() => router.push(`/quiz/${topicId}`)}>
           <span className="a-icon">🧠</span>
           Quiz
         </button>
@@ -507,6 +511,8 @@ export default function DashboardPage() {
         topicColor={palette.color}
         topicBg={palette.bg}
         topicLabel={topic ? topicName(topic) : ""}
+        topicId={s.topic_id}
+        router={router}
         onClose={() => setDetail(null)}
       />
     );
@@ -535,8 +541,9 @@ export default function DashboardPage() {
           Here&apos;s your personalised news for {formatDate()}
         </div>
         <button
-          style={{ background: "var(--paper)", border: "1.5px solid var(--rule2)", borderRadius: "var(--r)", padding: "9px 16px", fontSize: 13, fontWeight: 600, color: "var(--ink2)", display: "inline-flex", alignItems: "center", gap: 7, cursor: "pointer", transition: "all .2s", fontFamily: "'Satoshi', sans-serif" }}
-          onClick={() => window.alert("Full digest audio coming soon")}
+          style={{ background: "var(--paper)", border: "1.5px solid var(--rule2)", borderRadius: "var(--r)", padding: "9px 16px", fontSize: 13, fontWeight: 600, color: "var(--ink2)", display: "inline-flex", alignItems: "center", gap: 7, transition: "all .2s", fontFamily: "'Satoshi', sans-serif", opacity: 0.55, cursor: "not-allowed" }}
+          disabled
+          title="Audio coming in next update"
         >
           🎧 Listen to today&apos;s full digest
         </button>
@@ -665,8 +672,10 @@ export default function DashboardPage() {
                                 </span>
                                 <button
                                   className="nc-action"
-                                  style={{ fontSize: 11 }}
-                                  onClick={(e) => { e.stopPropagation(); window.alert("Audio coming soon"); }}
+                                  style={{ fontSize: 11, opacity: 0.55, cursor: "not-allowed" }}
+                                  onClick={(e) => e.stopPropagation()}
+                                  disabled
+                                  title="Audio coming in next update"
                                 >
                                   🎧 Listen
                                 </button>

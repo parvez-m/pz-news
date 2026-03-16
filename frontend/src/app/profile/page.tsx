@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getToken, isGuest, clearSession } from "@/lib/api";
+import { getToken, isGuest, clearSession, getMe } from "@/lib/api";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -38,6 +38,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const [guest, setGuest] = useState(false);
   const [name,  setName]  = useState("P");
+  const [email, setEmail] = useState("");
   const [occ,   setOcc]   = useState("");
   const [sched, setSched] = useState("");
 
@@ -53,6 +54,12 @@ export default function ProfilePage() {
         const payload = JSON.parse(atob(token.split(".")[1]));
         if (payload.name)  setName(payload.name);
       } catch { /* use default */ }
+
+      // Fetch real user info from API
+      getMe().then((me) => {
+        if (me.name)  setName(me.name);
+        if (me.email) setEmail(me.email);
+      }).catch(() => { /* silently fail */ });
     }
 
     const savedOcc = localStorage.getItem("pz_occupation");
@@ -83,18 +90,14 @@ export default function ProfilePage() {
         {/* Avatar + identity */}
         <div className="pf-avatar">{initials}</div>
         <div className="pf-name">{guest ? "Guest" : name}</div>
-        {!guest && (
-          <div className="pf-email" style={{ marginBottom: 4 }}>
-            {/* Email shown if available */}
-          </div>
-        )}
+        {email && <div className="pf-email" style={{ marginBottom: 4 }}>{email}</div>}
         {occ && <div className="pf-occ">{occ}</div>}
 
         {/* Account section */}
         {!guest && (
           <>
             <div className="pf-sec-title">Account</div>
-            <div className="pf-row" onClick={() => window.alert("Switch account coming soon")}>
+            <div className="pf-row" onClick={() => { clearSession(); router.push('/signin'); }}>
               <span className="pf-row-icon">🔄</span>
               <div>
                 <div className="pf-row-label">Switch account</div>
@@ -102,7 +105,12 @@ export default function ProfilePage() {
               </div>
               <span className="pf-row-arr">›</span>
             </div>
-            <div className="pf-row danger" onClick={() => window.alert("Delete account: coming soon in settings")}>
+            <div className="pf-row danger" onClick={() => {
+              if (window.confirm("Delete your account? This will remove all your data permanently and cannot be undone.")) {
+                clearSession();
+                router.push('/signin');
+              }
+            }}>
               <span className="pf-row-icon">🗑️</span>
               <div>
                 <div className="pf-row-label">Delete account</div>
@@ -115,7 +123,7 @@ export default function ProfilePage() {
 
         {/* Preferences */}
         <div className="pf-sec-title">Preferences</div>
-        <div className="pf-row" onClick={() => window.alert("Schedule settings coming soon")}>
+        <div className="pf-row" onClick={() => router.push('/onboarding?step=schedule')}>
           <span className="pf-row-icon">🕐</span>
           <div>
             <div className="pf-row-label">Briefing schedule</div>
@@ -124,7 +132,7 @@ export default function ProfilePage() {
           <span className="pf-row-arr">›</span>
         </div>
         {!guest && (
-          <div className="pf-row" onClick={() => window.alert("Occupation updated")}>
+          <div className="pf-row" onClick={() => router.push('/onboarding?step=occupation')}>
             <span className="pf-row-icon">💼</span>
             <div>
               <div className="pf-row-label">What I do</div>
@@ -145,7 +153,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="pf-row" style={{ marginTop: 8 }} onClick={() => window.alert("Privacy policy coming soon")}>
+        <div className="pf-row" style={{ marginTop: 8, opacity: 0.55, pointerEvents: 'none' as const }}>
           <span className="pf-row-icon">🔒</span>
           <div>
             <div className="pf-row-label">Privacy policy</div>

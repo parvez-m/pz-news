@@ -66,12 +66,16 @@ function DetailOverlay({
   color,
   bg,
   topicLabel,
+  topicId,
+  router,
   onClose,
 }: {
   summary: Summary;
   color: string;
   bg: string;
   topicLabel: string;
+  topicId: string;
+  router: ReturnType<typeof useRouter>;
   onClose: () => void;
 }) {
   const bullets  = parseMaybeJSON(summary.bullets);
@@ -142,8 +146,12 @@ function DetailOverlay({
       </div>
 
       <div className="det-fixed-bar">
-        <button className="det-action primary"><span className="a-icon">🎧</span>Listen</button>
-        <button className="det-action"><span className="a-icon">🧠</span>Quiz</button>
+        <button className="det-action primary" disabled style={{ opacity: 0.55, cursor: "not-allowed" }}>
+          <span className="a-icon">🎧</span>Listen
+        </button>
+        <button className="det-action" onClick={() => router.push(`/quiz/${topicId}`)}>
+          <span className="a-icon">🧠</span>Quiz
+        </button>
       </div>
     </div>
   );
@@ -236,6 +244,8 @@ export default function InterestDetailPage({
           color={palette.color}
           bg={palette.bg}
           topicLabel={topicName(topic)}
+          topicId={topicId}
+          router={router}
           onClose={() => setDetail(null)}
         />
       )}
@@ -316,7 +326,10 @@ export default function InterestDetailPage({
                           </span>
                           <button
                             className="nc-action"
-                            onClick={(e) => { e.stopPropagation(); window.alert("Audio coming soon"); }}
+                            onClick={(e) => e.stopPropagation()}
+                            disabled
+                            style={{ opacity: 0.55, cursor: "not-allowed" }}
+                            title="Audio coming in next update"
                           >
                             🎧 Listen
                           </button>

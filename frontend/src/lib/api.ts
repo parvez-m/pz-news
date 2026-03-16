@@ -67,6 +67,10 @@ export async function signOut(): Promise<void> {
   clearSession();
 }
 
+export async function getMe(): Promise<{ id: string; email: string; name: string | null; avatar_url: string | null; occupation: string | null; role: string }> {
+  return apiFetch("/api/v1/users/me");
+}
+
 // ── Topics ─────────────────────────────────────────────────────────────────────
 
 export type TopicType = "keyword" | "youtube_channel" | "youtube_playlist";
