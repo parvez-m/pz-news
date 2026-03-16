@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import type { Bindings, Variables } from "./types";
 import authRoutes from "./routes/auth";
+import usersRoutes from "./routes/users";
 import topicsRoutes from "./routes/topics";
 import refreshRoutes from "./routes/refresh";
 import summariesRoutes from "./routes/summaries";
@@ -37,6 +38,7 @@ app.onError((err, c) => {
 app.get("/", (c) => c.json({ status: "ok", service: "pz-news-worker" }));
 
 app.route("/api/v1/auth", authRoutes);
+app.route("/api/v1/users", usersRoutes);
 app.route("/api/v1/topics", topicsRoutes);
 app.route("/api/v1/refresh", refreshRoutes);
 app.route("/api/v1/summaries", summariesRoutes);
